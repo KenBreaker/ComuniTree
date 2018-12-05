@@ -1,0 +1,45 @@
+<div style="height: 100vh;">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span>
+            		<a class="nav-link" [routerLink]="['home']" mat-button>
+            		<mat-icon>home</mat-icon>
+                   	ComuniTree
+            		</a>
+		</span>
+
+            <span class="example-spacer"></span>
+            <div fxShow="true" fxHide.lt-md="true">
+                <a class="nav-link" [routerLink]="['map']" mat-button>
+                    <mat-icon>map</mat-icon>
+                    Ver Mapa ComuniTree
+                </a>
+                <a class="nav-link" [routerLink]="['dashboard']" mat-button>
+                    <mat-icon>account_box</mat-icon>
+                    Dashboard
+                </a>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-sidenav-container fxFlexFill>
+        <mat-sidenav #sidenav>
+            <mat-nav-list>
+                <a class="nav-link" [routerLink]="['map']" mat-list-item (click)="sidenav.toggle()">
+                    <mat-icon>map</mat-icon>
+                    Ver Mapa ComuniTree</a>
+                <a class="nav-link" [routerLink]="['dashboard']" mat-list-item (click)="sidenav.toggle()">
+                    <mat-icon>account_box</mat-icon>
+                    Dashboard
+                </a>
+                <a (click)="sidenav.toggle()" mat-list-item>
+                    <mat-icon>close</mat-icon> Cerrar Menu
+                </a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <router-outlet></router-outlet>
+    </mat-sidenav-container>
+</div>
