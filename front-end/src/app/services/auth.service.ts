@@ -13,7 +13,7 @@ export class AuthService {
 		clientID: 'bCKbtLxdU0gM8qQ3dalmho4O7gJd051N',
 		domain: 'comunitree.auth0.com',
 		responseType: 'token id_token',
-		redirectUri: 'http://comunitree.tk:80/home',
+		redirectUri: 'http://localhost:80/home',
 		scope: 'openid profile'
 	});
 
