@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TreesService } from '../../services/trees.service';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-seemore',
@@ -12,7 +13,8 @@ export class SeemoreComponent implements OnInit {
   tree: any;
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
-    private _treesService: TreesService) {
+    private _treesService: TreesService, private auth: AuthService) {
+      auth.handleAuthentication();
     }
   ngOnInit() {
     this.activatedRoute.params.subscribe( params => {
@@ -22,6 +24,7 @@ export class SeemoreComponent implements OnInit {
       }
     );
   });
+
   }
   sendReport( idx: number ) {
     this.router.navigate( ['/sendreport', idx] );

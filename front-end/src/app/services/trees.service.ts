@@ -1,32 +1,42 @@
 import { Injectable } from '@angular/core';
-import { ThrowStmt, analyzeAndValidateNgModules } from '@angular/compiler';
 import { HttpClient } from '@angular/common/http';
-import {RequestOptions, Request, Headers } from '@angular/http';
-import { Http, Response } from '@angular/http';
-import { Observable, forkJoin } from 'rxjs';
+import { Headers } from '@angular/http';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class TreesService {
-  private  apiUrl = '';
-  requestOptions = new RequestOptions({ headers: null, withCredentials: true });
-  private   trees: any;
-  private info = {
-    data: ''
-  };
-  constructor(private http: HttpClient) {
-  }
+	private apiUrl = '';
+	headers = new Headers();
+	private trees: any;
+	private info = {
+		data: ''
+	};
+	constructor(private http: HttpClient) {
+	}
 
-  getTree(idx: number): Observable<any> {
-    return this.http.get('http://comunitree.tk:8081/arbol/' + idx + '/');
-  }
+	getTree(idx: number): Observable<any> {
+		return this.http.get('http://comunitree.tk:8080/arbol/' + idx + '/');
+	}
+	getUsers(): Observable<any> {
+		return this.http.get('http://comunitree.tk:8080/api/v1/users/');
+	}
+	getTrees(): Observable<any> {
+		return this.http.get('http://comunitree.tk:8080/arbol/all/');
+	}
+	getReports(): Observable<any> {
+		return this.http.get('http://comunitree.tk:8080/api/v1/reports/list/');
+	}
+	getReport(idx: number): Observable<any> {
+		return this.http.get('http://comunitree.tk:8080/api/v1/reports/get/list/' + idx);
+	}
 
-  getTrees(): Observable<any> {
-    return this.http.get('http://comunitree.tk:8081/arbol/all/');
-  }
-}
+	addUser(user): Observable<any> {
+		const headers = new Headers({ 'Content-Type': 'application/json' });
+		return this.http.post('http://comunitree.tk:8080/api/v1/users/', user);
+	}
 
-export interface Tree {
-  id: number;
-  lat: number;
-  lng: number;
+	addReport(report): Observable<any> {
+		const headers = new Headers({ 'Content-Type': 'application/json' });
+		return this.http.post('http://comunitree.tk:8080/api/v1/reports/create/', report);
+	}
 }

@@ -1,45 +1,44 @@
 <div *ngIf="tree" class="container">
-    <mat-card *ngIf="getData(); let tree" class="example-card">
-        <mat-card-header>
-            <div mat-card-avatar class="example-header-image"></div>
-            <mat-card-title>{{ tree._type.name }}</mat-card-title>
-            <mat-card-subtitle>{{ tree._type.scientific_name }}</mat-card-subtitle>
-        </mat-card-header>
-        <img mat-card-image [src]='("http://comunitree.tk:8081"+tree.photos[0].url)' [alt]='tree.id'>
-        <mat-card-content>
-            <mat-tab-group>
-                <mat-tab label="Identificación">
-                    <p>Código de identificación: {{ tree.id }}</p>
-                    <p>Latitud: {{ tree.lat }}</p>
-                    <p>Longitud: {{ tree.lon }}</p>
-                </mat-tab>
-                <mat-tab label="Especificaciones">
-                    <p>Fecha de plantacion: {{ tree.grounded }}</p>
-                    <p>Radio de circunferencia: {{ tree.circumference }}</p>
-                    <p>Altura: {{ tree.size }}</p>
-                    <p>Especie: {{ tree._type.specie.name }}</p>
-                    <p>Color de corteza: {{ tree._type.bark_color }}</p>
-                    <p>Tipo de hoja: {{ tree._type.flower.name }}</p>
-                    <p>Tipo de raiz: {{ tree._type.root.name }}</p>
-                    <p>Tipo de tronco: {{ tree._type.trunk.name }}</p>
-                </mat-tab>
-                <mat-tab label="Peligros">
-                    <p *ngFor="let hazard of tree.hazard; let i = index"> Peligro {{ (1+i) }}: {{ hazard.description }}. {{ hazard.characteristic }}</p>
-
-                </mat-tab>
-            </mat-tab-group>
-
-        </mat-card-content>
-        <mat-card-actions>
-            <a [routerLink]="['/map']" mat-raised-button color="primary">Volver</a>
-            <button *ngIf="getData(); let trees" (click)="sendReport(tree.id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
-        </mat-card-actions>
-    </mat-card>
-    <div #sidenav *ngIf="tree">
-        <cdk-virtual-scroll-viewport itemSize="3" class="list-container">
-            <div class="caja" *ngFor="let img of tree.photos">
-                <img [src]='("http://comunitree.tk:8081"+img.url)' height="300px" width="300px">
-            </div>
-        </cdk-virtual-scroll-viewport>
-    </div>
+  <mat-card *ngIf="getData(); let tree" class="example-card">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ tree._type.name }}</mat-card-title>
+      <mat-card-subtitle>{{ tree._type.scientific_name }}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]='("http://comunitree.tk:8080"+tree.photos[0].url)' [alt]='tree.id'>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Identificación">
+          <p>Código de identificación: {{ tree.id }}</p>
+          <p>Latitud: {{ tree.lat }}</p>
+          <p>Longitud: {{ tree.lon }}</p>
+        </mat-tab>
+        <mat-tab label="Especificaciones">
+          <p>Fecha de plantacion: {{ tree.grounded }}</p>
+          <p>Radio de circunferencia: {{ tree.circumference }}</p>
+          <p>Altura: {{ tree.size }}</p>
+          <p>Especie: {{ tree._type.specie.name }}</p>
+          <p>Color de corteza: {{ tree._type.bark_color }}</p>
+          <p>Tipo de hoja: {{ tree._type.flower.name }}</p>
+          <p>Tipo de raiz: {{ tree._type.root.name }}</p>
+          <p>Tipo de tronco: {{ tree._type.trunk.name }}</p>
+        </mat-tab>
+        <mat-tab label="Peligros">
+          <p *ngFor="let hazard of tree.hazard; let i = index"> Peligro {{ (1+i) }}: {{ hazard.description }}. {{ hazard.characteristic }}</p>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-actions>
+      <a [routerLink]="['/map']" mat-raised-button color="primary">Volver</a>
+      <button *ngIf="!auth.isAuthenticated()" mat-raised-button disabled type="button">Enviar reporte</button>
+      <button *ngIf="(getData() && auth.isAuthenticated() )" (click)="sendReport(tree.id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
+    </mat-card-actions>
+  </mat-card>
+  <div #sidenav *ngIf="tree">
+    <cdk-virtual-scroll-viewport itemSize="3" class="list-container">
+      <div class="caja" *ngFor="let img of tree.photos">
+        <img [src]='("http://comunitree.tk:8080"+img.url)' height="300px" width="300px">
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
 </div>

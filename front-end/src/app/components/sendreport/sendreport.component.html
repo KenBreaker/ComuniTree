@@ -13,59 +13,6 @@
             <input matInput placeholder="Longitud" disabled value="{{ tree.lon }}">
         </mat-form-field>
 
-        <table class="example-full-width" cellspacing="0">
-            <tr>
-                <div>
-                    <td>
-                        <mat-form-field class="example-full-width">
-                            <div>
-                                <input [(ngModel)]="report.name" placeholder="Ingrese su nombre" name="name" minlength="3" maxlength="15" matInput type="text" required #name="ngModel">
-                                <div *ngIf="name.errors?.required" mat-hint>
-                                </div>
-
-                            </div>
-                        </mat-form-field>
-                    </td>
-                    <div *ngIf="name.errors?.minlength">
-                        <mat-hint align="end">Minimo {{ name.errors.minlength.requiredLength }} caracteres</mat-hint>
-                    </div>
-                    <div *ngIf="name.errors?.maxlength">
-                        <mat-hint align="end">Maximo 15 caracteres</mat-hint>
-                    </div>
-                </div>
-
-                <div>
-                    <td>
-                        <mat-form-field class="example-full-width">
-                            <input [(ngModel)]="report.lastname" name="lastname" minlength="3" maxlength="20" matInput type="text" placeholder="Ingrese su apellido" #lastname="ngModel" required>
-                            <div *ngIf="lastname.errors?.required">
-                            </div>
-                        </mat-form-field>
-                    </td>
-                    <div *ngIf="lastname.errors?.minlength">
-                        <mat-hint align="end">Minimo {{ lastname.errors.minlength.requiredLength }} caracteres</mat-hint>
-                    </div>
-                    <div *ngIf="lastname.errors?.maxlength">
-
-                    </div>
-
-                </div>
-                <div>
-                    <td>
-                        <mat-form-field>
-                            <input [(ngModel)]="report.email" name="email" minlength="3" maxlength="30" matInput type="text" placeholder="Ingrese su email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" #email="ngModel" required>
-                            <div *ngIf="email.errors?.required">
-                            </div>
-                        </mat-form-field>
-                    </td>
-                    <div *ngIf="email.errors?.pattern">
-                        <mat-hint align="end">No sigue el patron de un email</mat-hint>
-                    </div>
-                </div>
-
-
-        </table>
-
         <div class="example-container">
             <mat-form-field>
                 <mat-label>Describe el problema</mat-label>

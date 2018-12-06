@@ -9,7 +9,8 @@
                     <p style="color:black">Longitud = {{ tree.lon }} </p>
                     <div>
                         <button *ngIf="getData(); let trees" (click)="seeMore(trees[i].id)" mat-raised-button color="primary" type="button">Ver más</button>
-                        <button *ngIf="getData(); let trees" (click)="sendReport(trees[i].id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
+                        <button *ngIf="!auth.isAuthenticated()" mat-raised-button disabled type="button">Enviar reporte</button>
+                        <button *ngIf="(getData() && auth.isAuthenticated() )" (click)="sendReport(trees[i].id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
                     </div>
                 </agm-info-window>
             </agm-marker>

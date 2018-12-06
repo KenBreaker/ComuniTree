@@ -7,18 +7,20 @@
             <span>
             		<a class="nav-link" [routerLink]="['home']" mat-button>
             		<mat-icon>home</mat-icon>
-                   	ComuniTree
-            		</a>
+                       ComuniTree
+                    </a>
 		</span>
 
             <span class="example-spacer"></span>
             <div fxShow="true" fxHide.lt-md="true">
+                <button (click)="login()" *ngIf="!auth.isAuthenticated()" mat-flat-button color="primary"><mat-icon>account_circle</mat-icon>Iniciar Sesion</button>
+                <button (click)="logout()" *ngIf="auth.isAuthenticated()" mat-flat-button color="primary"><mat-icon>account_circle</mat-icon>Cerrar Sesion</button>
                 <a class="nav-link" [routerLink]="['map']" mat-button>
                     <mat-icon>map</mat-icon>
                     Ver Mapa ComuniTree
                 </a>
-                <a class="nav-link" [routerLink]="['dashboard']" mat-button>
-                    <mat-icon>account_box</mat-icon>
+                <a *ngIf="auth.isAuthenticated()" class="nav-link" [routerLink]="['dashboard']" mat-button>
+                    <mat-icon>lock_open</mat-icon>
                     Dashboard
                 </a>
             </div>
@@ -28,11 +30,18 @@
     <mat-sidenav-container fxFlexFill>
         <mat-sidenav #sidenav>
             <mat-nav-list>
-                <a class="nav-link" [routerLink]="['map']" mat-list-item (click)="sidenav.toggle()">
-                    <mat-icon>map</mat-icon>
-                    Ver Mapa ComuniTree</a>
-                <a class="nav-link" [routerLink]="['dashboard']" mat-list-item (click)="sidenav.toggle()">
-                    <mat-icon>account_box</mat-icon>
+                <div class='button-container'>
+                    <button (click)="login()" *ngIf="!auth.isAuthenticated()" mat-flat-button color="primary"><mat-icon>account_circle</mat-icon>Iniciar Sesion</button>
+                    <button (click)="logout()" *ngIf="auth.isAuthenticated()" mat-flat-button color="primary"><mat-icon>account_circle</mat-icon>Cerrar Sesion</button>
+                </div>
+                <div class='button-container'>
+                    <a class="nav-link" [routerLink]="['map']" mat-list-item (click)="sidenav.toggle()">
+                        <mat-icon>map</mat-icon>
+                        Ver Mapa ComuniTree</a>
+                </div>
+
+                <a *ngIf="auth.isAuthenticated()" class="nav-link" [routerLink]="['dashboard']" mat-list-item (click)="sidenav.toggle()">
+                    <mat-icon>lock_open</mat-icon>
                     Dashboard
                 </a>
                 <a (click)="sidenav.toggle()" mat-list-item>

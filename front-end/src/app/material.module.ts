@@ -14,48 +14,59 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
-import {MatTabsModule} from '@angular/material/tabs';
-
+import { MatTabsModule } from '@angular/material/tabs';
+import { ChartsModule } from 'ng2-charts';
+import { MatTableModule } from '@angular/material';
+import { MatPaginatorModule } from '@angular/material';
+import { MatSortModule } from '@angular/material';
 @NgModule({
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    FlexLayoutModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ScrollingModule,
-    MatTabsModule
-  ],
-  exports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatProgressBarModule,
-    MatCardModule,
-    MatMenuModule,
-    MatIconModule,
-    MatSidenavModule,
-    MatListModule,
-    FlexLayoutModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ScrollingModule,
-    MatTabsModule
-  ],
-  declarations: []
+	imports: [
+		CommonModule,
+		MatToolbarModule,
+		MatButtonModule,
+		MatProgressBarModule,
+		MatCardModule,
+		MatMenuModule,
+		MatIconModule,
+		MatSidenavModule,
+		MatListModule,
+		FlexLayoutModule,
+		MatInputModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		FormsModule,
+		ReactiveFormsModule,
+		ScrollingModule,
+		MatTabsModule,
+		ChartsModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule
+	],
+	exports: [
+		MatToolbarModule,
+		MatButtonModule,
+		MatProgressBarModule,
+		MatCardModule,
+		MatMenuModule,
+		MatIconModule,
+		MatSidenavModule,
+		MatListModule,
+		FlexLayoutModule,
+		MatInputModule,
+		MatFormFieldModule,
+		MatSelectModule,
+		FormsModule,
+		ReactiveFormsModule,
+		ScrollingModule,
+		MatTabsModule,
+		ChartsModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule
+	],
+	declarations: []
 })
 export class MaterialModule { }
