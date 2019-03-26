@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { TreesService } from '../../services/trees.service';
 import { Router } from '@angular/router';
@@ -13,6 +14,7 @@ export class MapComponent implements OnInit {
 	trees: any;
 	info: any;
 	response = 0;
+	selectedMarker;
 	lat_init: number;
 	lng_init: number;
 	profile;
@@ -32,12 +34,13 @@ export class MapComponent implements OnInit {
 		auth.handleAuthentication();
 	}
 	ngOnInit() {
+		/*
 		if (this.auth.userProfile) {
 			this.profile = this.auth.userProfile;
 		} else {
 			this.auth.getProfile((err, profile) => {
 			});
-		}
+		}*/
 	}
 	sendReport(idx: number) {
 		this.router.navigate(['/sendreport', idx]);
@@ -47,5 +50,8 @@ export class MapComponent implements OnInit {
 	}
 	getData() {
 		return this.trees;
+	}
+	markerDragEnd(m: marker, $event: MouseEvent) {
+		console.log('dragEnd', m, $event);
 	}
 }

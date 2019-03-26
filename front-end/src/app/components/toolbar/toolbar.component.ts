@@ -22,13 +22,14 @@ export class ToolbarComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		/*
 		this.auth.handleAuthentication();
 		if (this.auth.userProfile) {
 			this.profile = this.auth.userProfile;
 		} else {
 			this.auth.getProfile((err, profile) => {
 			});
-		}
+		}*/
 
 	}
 
