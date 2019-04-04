@@ -4,115 +4,138 @@ from .models import *
 
 # Register your models here.
 
+
 class RootAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class TrunkAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class LeafAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class BranchAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class FlowerAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class SpecieAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class HabitatAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'updated', )
+
 
 class BenefictAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'characteristic', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'characteristic', 'updated', )
+
 
 class HazardAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'characteristic', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'characteristic', 'updated', )
+
 
 class TypeTreeAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = (
-		'name', 'scientific_name', 'description', 
-		'family', 'clase', 'specie', 'benefict_names', 'updated', 
-	)
+    readonly_fields = ('created', 'updated')
+    list_display = (
+        'name', 'scientific_name', 'description',
+        'family_names', 'clase_names', 'specie_names', 'benefict_names', 'updated',
+    )
 
-	def benefict_names(self, obj):
-		return [field.name for field in obj.benefict.all()]
+    def family_names(self, obj):
+        return [field.name for field in obj.benefict.all()]
 
-	benefict_names.short_description = 'Beneficios'
+    def clase_names(self, obj):
+        return [field.name for field in obj.benefict.all()]
+
+    def specie_names(self, obj):
+        return [field.name for field in obj.benefict.all()]
+
+    def benefict_names(self, obj):
+        return [field.name for field in obj.benefict.all()]
+
+    benefict_names.short_description = 'Beneficios'
+
 
 class TreeAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = (
-		'code', 'description', 'lon', 'lat', 
-		'size', 'grounded', 'hazard_names', 'updated', )
-	
-	def code(self, obj):
-		return obj.id
+    readonly_fields = ('created', 'updated')
+    list_display = (
+        'code', 'description', 'lon', 'lat',
+        'size', 'grounded', 'hazard_names', 'updated', )
 
-	def hazard_names(self, obj):
-		return [field.name for field in obj.hazard.all()]
+    def code(self, obj):
+        return obj.id
 
-	code.short_description = 'Código de Árbol'
-	hazard_names.short_description = 'Amenazas'
+    def hazard_names(self, obj):
+        return [field.name for field in obj.hazard.all()]
+
+    code.short_description = 'Código de Árbol'
+    hazard_names.short_description = 'Amenazas'
+
 
 class PhotoAdmin(admin.ModelAdmin):
-	readonly_fields = ('get_image', 'created', 'updated')
-	list_display = ('get_image', 'tree_name', 'description', 'updated', )
+    readonly_fields = ('get_image', 'created', 'updated')
+    list_display = ('get_image', 'tree_name', 'description', 'updated', )
 
-	def tree_name(self, obj):
-		if obj.tree._type.name:
-			return obj.tree._type.name
-		else:
-			return 'No existe nombre'
+    def tree_name(self, obj):
+        if obj.tree._type.name:
+            return obj.tree._type.name
+        else:
+            return 'No existe nombre'
 
-	def get_image(self, obj):
-		return mark_safe(u'<img src="%s" style="width:200px;height:200px;"/>' % (obj.image.url))
+    def get_image(self, obj):
+        return mark_safe(u'<img src="%s" style="width:200px;height:200px;"/>' % (obj.image.url))
 
-	tree_name.short_description = 'Tipo de Árbol'
+    tree_name.short_description = 'Tipo de Árbol'
 
 
 class ActivityAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'reason', 'get_tree_id', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'reason', 'get_tree_id', 'updated', )
 
-	def get_tree_id(self, obj):
-		return obj.tree.id
+    def get_tree_id(self, obj):
+        return obj.tree.id
 
-	get_tree_id.short_description = 'Código Árbol'
+    get_tree_id.short_description = 'Código Árbol'
+
 
 class StateAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('name', 'description', 'get_tree_id', 'updated', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('name', 'description', 'get_tree_id', 'updated', )
 
-	def get_tree_id(self, obj):
-		return obj.tree.id
+    def get_tree_id(self, obj):
+        return obj.tree.id
 
-	get_tree_id.short_description = 'Código Árbol'
+    get_tree_id.short_description = 'Código Árbol'
+
 
 class WaterAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('get_tree_id', 'last_time_watered', )
+    readonly_fields = ('created', 'updated')
+    list_display = ('get_tree_id', 'last_time_watered', )
 
-	def get_tree_id(self, obj):
-		return obj.tree.id
+    def get_tree_id(self, obj):
+        return obj.tree.id
 
-	def last_time_watered(self, obj):
-		return obj.created
+    def last_time_watered(self, obj):
+        return obj.created
 
-	get_tree_id.short_description = 'Código Árbol'
-	last_time_watered.short_description = 'Última vez regado'
+    get_tree_id.short_description = 'Código Árbol'
+    last_time_watered.short_description = 'Última vez regado'
 
 
 admin.site.register(Root, RootAdmin)
