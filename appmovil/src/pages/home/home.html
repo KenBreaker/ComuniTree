@@ -1,0 +1,35 @@
+<!--HEADER-->
+<ion-header>
+    <ion-navbar>
+        <ion-title style="float:left">Mapa</ion-title>
+
+
+        <ion-toggle style="float: right" [(ngModel)]="proveedor.opcion"></ion-toggle>
+        <ion-label style="float: right" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>
+        <button small ion-button icon-only style="float: right" (click)="recargarPag()"><ion-icon name="refresh"></ion-icon></button>
+        <button small ion-button icon-only style="float: right" (click)="openarbol()"><ion-icon name="leaf"></ion-icon></button>
+
+    </ion-navbar>
+</ion-header>
+<!--CONTENIDO-->
+
+<ion-content>
+    <!--ion-fab top center edge>
+        <button ion-fab mini color="secondary">
+            <ion-icon name="leaf"></ion-icon>
+        </button>
+        <ion-fab-list>
+            <button ion-fab (click)="openarbol()"><ion-icon name="leaf"></ion-icon></button>
+            <button ion-fab (click)="recargar()"><ion-icon name="refresh"></ion-icon></button>
+        </ion-fab-list>
+    </ion-fab-->
+
+    <div #map id="map"></div>
+</ion-content>
+
+<!--FOOTER-->
+
+<ion-footer>
+
+
+</ion-footer>

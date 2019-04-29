@@ -21,7 +21,7 @@ export class TreesService {
 		return this.http.get('http://comunitree.tk:8080/api/v1/users/');
 	}
 	getTrees(): Observable<any> {
-		return this.http.get('http://comunitree.tk:8080/arbol/all/');
+		return this.http.get('http://comunitree.tk:8080/arbol/');
 	}
 	getReports(): Observable<any> {
 		return this.http.get('http://comunitree.tk:8080/api/v1/reports/list/');

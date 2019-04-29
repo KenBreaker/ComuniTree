@@ -5,7 +5,7 @@
       <mat-card-title>{{ tree._type.name }}</mat-card-title>
       <mat-card-subtitle>{{ tree._type.scientific_name }}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image [src]='("http://comunitree.tk:8080"+tree.photos[0].url)' [alt]='tree.id'>
+    <img mat-card-image [src]='(tree.image)' [alt]='tree.id'>
     <mat-card-content>
       <mat-tab-group>
         <mat-tab label="Identificación">
@@ -30,8 +30,8 @@
     </mat-card-content>
     <mat-card-actions>
       <a [routerLink]="['/map']" mat-raised-button color="primary">Volver</a>
-      <button *ngIf="!auth.isAuthenticated()" mat-raised-button disabled type="button">Enviar reporte</button>
-      <button *ngIf="(getData() && auth.isAuthenticated() )" (click)="sendReport(tree.id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
+      <button mat-raised-button disabled type="button">Enviar reporte</button>
+      <button *ngIf="(getData() )" (click)="sendReport(tree.id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
     </mat-card-actions>
   </mat-card>
   <div #sidenav *ngIf="tree">

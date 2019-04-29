@@ -1,0 +1,92 @@
+<!--
+  Generated template for the ArbolPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar>
+        <ion-title style="float:left">Árbol</ion-title>
+        <!--ion-toggle style="float: right" [(ngModel)]="proveedor.opcion"></ion-toggle-->
+        <ion-label style="float: right" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <ion-list>
+        <ion-card>
+            <ion-item>
+                <ion-label stacked>Nombre</ion-label>
+                <ion-input type="text" [(ngModel)]="nombre"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label stacked>Descripción</ion-label>
+                <ion-input type="text" [(ngModel)]="descripcion"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label stacked>Tamaño</ion-label>
+                <ion-input type="number" [(ngModel)]="tamano"></ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label stacked>Circunferencia</ion-label>
+                <ion-input type="number" [(ngModel)]="circunferencia"></ion-input>
+            </ion-item>
+
+        </ion-card>
+
+
+        <ion-item>
+            <ion-label>Fecha</ion-label>
+            <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="fecha"></ion-datetime>
+        </ion-item>
+
+
+        <ion-item>
+            <div text-start>
+                Coordenadas
+                <button ion-button color="gris" outline item-end icon-start (click)="mylocation()">
+                        <ion-icon color="primary" name="compass"></ion-icon>
+                        actualizar coordenadas
+                </button>
+            </div>
+            <div>
+
+            </div>
+
+            <div>
+                <div float-left>
+                    <p>
+                        lat: {{lat}}
+                    </p>
+                </div>
+                <div float-right>
+                    <p>
+                        lon: {{lon}}
+                    </p>
+                </div>
+
+            </div>
+        </ion-item>
+
+        <ion-item>
+            <p>Fotografia</p>
+            <img [src]="fotografia" *ngIf="fotografia" />
+        </ion-item>
+
+        <ion-label>
+            <button ion-button full icon-start (click)="sacarfoto()">
+                        Tomar Fotografia 
+                        <ion-icon name="camera"></ion-icon>
+                    </button>
+        </ion-label>
+
+        <ion-label>
+            <button ion-button full (click)="subir()">Guardar</button>
+        </ion-label>
+
+    </ion-list>
+</ion-content>
