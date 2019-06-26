@@ -7,3 +7,5 @@ api/migrations/__pycache__/
 users/__pycache__/
 users/migrations/__pycache__/
 reports/__pycache__/*
+front-end/node_modules/
+
