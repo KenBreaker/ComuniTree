@@ -76,7 +76,7 @@ class TreeAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'updated')
     list_display = (
         'code', 'description', 'lon', 'lat',
-        'size', 'grounded', 'hazard_names', 'updated', )
+        'size', 'grounded', 'hazard_names','image', 'updated', )
 
     def code(self, obj):
         return obj.id

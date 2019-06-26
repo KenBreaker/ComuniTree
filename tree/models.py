@@ -181,6 +181,7 @@ class Tree(models.Model):
     grounded = models.DateTimeField(blank=True, auto_now_add=False, verbose_name='Fecha de plantación')
     circumference = models.PositiveIntegerField(blank=True, verbose_name='Circunferencia en centimetros')
     hazard = models.ManyToManyField(Hazard, blank=True, verbose_name='Amenazas')
+    image = models.TextField(blank=True, verbose_name='Image')
     active = models.BooleanField(default=False, verbose_name='Activo')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
     updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición')

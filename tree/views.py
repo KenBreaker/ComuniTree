@@ -754,9 +754,8 @@ def add_tree(request):
         tree.description = data["description"]
         tree.lon = float(data["lon"])
         tree.lat = float(data["lat"])
+        tree.image = float(data["image"])
         tree.size = int(data["size"])
-        date = datetime.datetime.strptime(data["grounded"], "%d/%m/%Y")
-        tree.grounded = date
         tree.circumference = int(data["circumference"])
 
         tree.save()
