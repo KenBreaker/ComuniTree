@@ -75,7 +75,7 @@ class TypeTreeAdmin(admin.ModelAdmin):
 class TreeAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'updated')
     list_display = (
-        'code', 'description', 'lon', 'lat',
+        'code', 'lon', 'lat',
         'size', 'updated','image' )
 
     def code(self, obj):

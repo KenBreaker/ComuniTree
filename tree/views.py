@@ -751,7 +751,6 @@ def add_tree(request):
 
         tree = Tree()
         tree._type = TypeTree.objects.get(pk=int(data["type_id"]))
-        tree.description = data["description"]
         tree.lon = float(data["lon"])
         tree.lat = float(data["lat"])
         tree.size = int(data["size"])

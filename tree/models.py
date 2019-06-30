@@ -174,7 +174,6 @@ class TypeTree(models.Model):
 
 class Tree(models.Model):
     _type = models.ForeignKey(TypeTree, on_delete=models.CASCADE, verbose_name='Tipo de Árbol')
-    description = models.TextField(blank=True, verbose_name='Descripción')
     lon = models.DecimalField(max_digits=9, decimal_places=6, verbose_name='Longitud')
     lat = models.DecimalField(max_digits=9, decimal_places=6, verbose_name='Latitud')
     size = models.PositiveSmallIntegerField(verbose_name='Altura en cm aproximada')
