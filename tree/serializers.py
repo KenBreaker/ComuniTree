@@ -90,13 +90,13 @@ class TypeTreeSerializer(serializers.ModelSerializer):
 
 
 class TreeSerializer(serializers.ModelSerializer):
-    hazard = HazardSerializer(read_only=True, many=True)
+    """hazard = HazardSerializer(read_only=True, many=True)"""
     _type = TypeTreeSerializer(read_only=True, many=False)
     """photos = PhotoSerializer(read_only=True, source='photo_set', many=True)"""
 
     class Meta:
         model = Tree
-        exclude = ['active', 'created', 'updated', ]
+        exclude = ['active', 'created']
 
     def create(self, validated_data):
         return Tree.objects.create(**validated_data)

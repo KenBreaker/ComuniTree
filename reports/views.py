@@ -38,6 +38,7 @@ class ReportViewGetByTree(generics.ListAPIView):
 # 	}
 # 	return JsonResponse(data)
 
+
 @csrf_exempt
 def add_report(request):
 	if request.method == 'POST':
@@ -48,12 +49,13 @@ def add_report(request):
 
 		report = models.Report()
 		report.tree = Tree.objects.get(pk=int(data["tree_id"]))
-		report.title = data["title"]
 		report.description = data["description"]
-		report.uploaded_by = CustomUser.objects.get(email=data["user_email"])
-		
+		report.uploaded_by = data["user_email"]
+		report.cable_proximity = data["cable_proximity"]
+		report.plague = data["plague"]
+		report.image = data["image"]
+		report.other = data["other"]
 		report.save()
-
 		serializer = serializers.ReportSerializer(report)
 
 		data = {

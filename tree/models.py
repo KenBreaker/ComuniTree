@@ -177,13 +177,12 @@ class Tree(models.Model):
     description = models.TextField(blank=True, verbose_name='Descripción')
     lon = models.DecimalField(max_digits=9, decimal_places=6, verbose_name='Longitud')
     lat = models.DecimalField(max_digits=9, decimal_places=6, verbose_name='Latitud')
-    size = models.PositiveSmallIntegerField(verbose_name='Altura en metros aproximada')
-    grounded = models.DateTimeField(blank=True, auto_now_add=False, verbose_name='Fecha de plantación')
+    size = models.PositiveSmallIntegerField(verbose_name='Altura en cm aproximada')
     circumference = models.PositiveIntegerField(blank=True, verbose_name='Circunferencia en centimetros')
-    hazard = models.ManyToManyField(Hazard, blank=True, verbose_name='Amenazas')
     active = models.BooleanField(default=False, verbose_name='Activo')
     created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
-    updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de mantención')
+    image = models.TextField(blank=True, verbose_name='Imagen')
 
     class Meta:
         verbose_name = "árbol"

@@ -5,8 +5,7 @@ from .models import *
 # Register your models here.
 
 class ReportAdmin(admin.ModelAdmin):
-	readonly_fields = ('created', 'updated')
-	list_display = ('report_id', 'title', 'description', 'uploaded_by', 'active', )
+	list_display = ('id', 'description', 'uploaded_by','cable_proximity','plague','tree', 'created','image' )
 
 	def report_id(self, obj):
 		return obj.id
@@ -22,8 +21,6 @@ class PhotoReportAdmin(admin.ModelAdmin):
 
 	def get_report_name(self, obj):
 		return obj.report
-
-	get_report_name.short_description = "Titulo Reporte"
 
 admin.site.register(Report, ReportAdmin)
 admin.site.register(PhotoReport, PhotoReportAdmin)

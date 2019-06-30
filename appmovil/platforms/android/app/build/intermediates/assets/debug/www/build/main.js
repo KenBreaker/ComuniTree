@@ -29,7 +29,7 @@ var TabsPage = /** @class */ (function () {
         this.tab3Root = __WEBPACK_IMPORTED_MODULE_2__contact_contact__["a" /* ContactPage */];
     }
     TabsPage = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\tabs\tabs.html"*/'<ion-tabs>\n    <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>\n    <ion-tab [root]="tab2Root" tabTitle="Arboles" tabIcon="leaf"></ion-tab>\n    <ion-tab [root]="tab3Root" tabTitle="Perfil" tabIcon="contact"></ion-tab>\n</ion-tabs>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\tabs\tabs.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\tabs\tabs.html"*/'<ion-tabs>\n\n    <ion-tab [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>\n\n    <ion-tab [root]="tab2Root" tabTitle="Arboles" tabIcon="leaf"></ion-tab>\n\n    <ion-tab [root]="tab3Root" tabTitle="Perfil" tabIcon="contact"></ion-tab>\n\n</ion-tabs>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\tabs\tabs.html"*/
         }),
         __metadata("design:paramtypes", [])
     ], TabsPage);
@@ -202,7 +202,7 @@ var AboutPage = /** @class */ (function () {
     ], AboutPage.prototype, "content", void 0);
     AboutPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-about',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\about\about.html"*/'<ion-header>\n    <ion-navbar>\n        <ion-title id="titleArbol">\n            Arbol\n        </ion-title>\n        <ion-label id="puerto" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>\n    </ion-navbar>\n</ion-header>\n\n\n\n\n<ion-content>\n    <ion-fab right bottom>\n        <button ion-fab mini (click)="irArriba()"><ion-icon name="arrow-dropup"></ion-icon></button>\n    </ion-fab>\n    <ion-refresher (ionRefresh)="doRefresh($event)">\n        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">\n\n        </ion-refresher-content>\n    </ion-refresher>\n    <ion-searchbar #input (keyup)="getItems( input.value )" type="text" class="form-control" placeholder="Buscar Arbol..."></ion-searchbar>\n\n    <ion-card *ngFor="let arbol of arboles">\n        <div *ngIf="arbol.id == input.value || input.value == \'\'">\n            <img *ngFor="let photo of arbol.photos" src="{{\'http://www.comunitree.tk:8080\' + photo.url}}">\n            <ion-card-content>\n                <ion-card-title padding>\n                    {{arbol._type.name}}\n                </ion-card-title>\n                <ion-list>\n                    <ion-item>\n                        <ion-label>\n\n                            <p>id:{{arbol.id}}</p>\n                            <p>\n                                latitud = {{arbol.lat}}\n                            </p>\n                            <p>\n                                longitud = {{arbol.lon}}\n                            </p>\n                            <p>\n                                size = {{arbol.size}}\n                            </p>\n                            <p>\n                                {{arbol.description}}\n                            </p>\n                        </ion-label>\n                    </ion-item>\n                </ion-list>\n\n            </ion-card-content>\n        </div>\n\n    </ion-card>\n\n</ion-content>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\about\about.html"*/
+            selector: 'page-about',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\about\about.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title id="titleArbol">\n\n            Arbol\n\n        </ion-title>\n\n        <ion-label id="puerto" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>\n\n    </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n\n\n\n\n<ion-content>\n\n    <ion-fab right bottom>\n\n        <button ion-fab mini (click)="irArriba()"><ion-icon name="arrow-dropup"></ion-icon></button>\n\n    </ion-fab>\n\n    <ion-refresher (ionRefresh)="doRefresh($event)">\n\n        <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">\n\n\n\n        </ion-refresher-content>\n\n    </ion-refresher>\n\n    <ion-searchbar #input (keyup)="getItems( input.value )" type="text" class="form-control" placeholder="Buscar Arbol..."></ion-searchbar>\n\n\n\n    <ion-card *ngFor="let arbol of arboles">\n\n        <div *ngIf="arbol.id == input.value \n\n        || input.value == \'\'\n\n        || arbol.description[0]+arbol.description[1] == input.value\n\n        || arbol.description[0] == input.value\n\n        || arbol.description[0]+arbol.description[1]+arbol.description[2] == input.value">\n\n            <img *ngFor="let photo of arbol.photos" src="{{\'http://www.comunitree.tk:8080\' + photo.url}}">\n\n            <ion-card-content>\n\n                <ion-card-title padding>\n\n                    {{arbol._type.name}}\n\n                </ion-card-title>\n\n                <ion-list>\n\n                    <ion-item>\n\n                        <ion-label>\n\n\n\n                            <p>id:{{arbol.id}}</p>\n\n                            <p>\n\n                                latitud = {{arbol.lat}}\n\n                            </p>\n\n                            <p>\n\n                                longitud = {{arbol.lon}}\n\n                            </p>\n\n                            <p>\n\n                                size = {{arbol.size}}\n\n                            </p>\n\n                            <p>\n\n                                {{arbol.description}}\n\n                            </p>\n\n                        </ion-label>\n\n                    </ion-item>\n\n                </ion-list>\n\n\n\n            </ion-card-content>\n\n        </div>\n\n\n\n    </ion-card>\n\n\n\n</ion-content>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\about\about.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_2__providers_pro_arboles_pro_arboles__["a" /* ProArbolesProvider */],
@@ -251,7 +251,7 @@ var ReportePage = /** @class */ (function () {
     };
     ReportePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-reporte',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\reporte\reporte.html"*/'<!--\n\n  Generated template for the ReportePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>reporte</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\reporte\reporte.html"*/,
+            selector: 'page-reporte',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\reporte\reporte.html"*/'<!--\n\n  Generated template for the ReportePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>reporte</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\reporte\reporte.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */]])
     ], ReportePage);
@@ -301,7 +301,7 @@ var ContactPage = /** @class */ (function () {
     };
     ContactPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-contact',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\contact\contact.html"*/'<ion-header>\n    <ion-navbar>\n        <ion-title>\n            Perfil\n        </ion-title>\n        <ion-buttons end>\n            <button ion-button small (click)="openRegistro()">Registrarse</button>\n        </ion-buttons>\n        <ion-buttons start>\n            <button ion-button small (click)="openLogin()">Iniciar sesion</button>\n        </ion-buttons>\n\n    </ion-navbar>\n\n</ion-header>\n\n<ion-content>\n    <ion-card>\n        <ion-card-content>\n            <ion-item>\n                <ion-label>\n                    Nombre\n                </ion-label>\n            </ion-item>\n            <ion-item>\n                <ion-label>\n                    Apellido\n                </ion-label>\n            </ion-item>\n            <ion-item>\n                <ion-label>\n                    Email\n                </ion-label>\n            </ion-item>\n            <!-- Add card content here! -->\n        </ion-card-content>\n\n    </ion-card>\n    <ion-card>\n        <ion-card-content>\n            <ion-label>\n                <button ion-button full color="secondary" icon-start (click)="openarbol()">\n                    Agregar árbol \n                    <ion-icon name="leaf"></ion-icon>\n                </button>\n            </ion-label>\n        </ion-card-content>\n    </ion-card>\n</ion-content>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\contact\contact.html"*/
+            selector: 'page-contact',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\contact\contact.html"*/'<ion-header>\n\n    <ion-navbar>\n\n        <ion-title>\n\n            Perfil\n\n        </ion-title>\n\n        <ion-buttons end>\n\n            <button ion-button small (click)="openRegistro()">Registrarse</button>\n\n        </ion-buttons>\n\n        <ion-buttons start>\n\n            <button ion-button small (click)="openLogin()">Iniciar sesion</button>\n\n        </ion-buttons>\n\n\n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n    <ion-card>\n\n        <ion-card-content>\n\n            <ion-item>\n\n                <ion-label>\n\n                    Nombre\n\n                </ion-label>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-label>\n\n                    Apellido\n\n                </ion-label>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-label>\n\n                    Email\n\n                </ion-label>\n\n            </ion-item>\n\n            <!-- Add card content here! -->\n\n        </ion-card-content>\n\n\n\n    </ion-card>\n\n    <ion-card>\n\n        <ion-card-content>\n\n            <ion-label>\n\n                <button ion-button full color="secondary" icon-start (click)="openarbol()">\n\n                    Agregar árbol \n\n                    <ion-icon name="leaf"></ion-icon>\n\n                </button>\n\n            </ion-label>\n\n        </ion-card-content>\n\n    </ion-card>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\contact\contact.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */]])
     ], ContactPage);
@@ -376,7 +376,7 @@ var LoginPage = /** @class */ (function () {
     };
     LoginPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-login',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\login\login.html"*/'<!--\n\n  Generated template for the LoginPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n    <ion-navbar>\n\n        <ion-title>login</ion-title>\n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n<ion-content>\n\n    <form [formGroup]="myForm" (ngSubmit)="saveData()">\n\n        <ion-list>\n\n            <ion-item>\n\n                <ion-icon name="person" item-start></ion-icon>\n\n                <ion-label stacked>Nombres:</ion-label>\n\n                <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-icon name="mail" item-start></ion-icon>\n\n                <ion-label stacked>Correo electronico:</ion-label>\n\n                <ion-input formControlName="email" ngModel type="email" placeholder="Email" required email></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-icon name="eye" item-start></ion-icon>\n\n                <ion-label stacked>Contraseña:</ion-label>\n\n                <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>\n\n            </ion-item>\n\n        </ion-list>\n\n        <div padding>\n\n            <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>\n\n        </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\login\login.html"*/,
+            selector: 'page-login',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\login\login.html"*/'<!--\n\n  Generated template for the LoginPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n    <ion-navbar>\n\n        <ion-title>login</ion-title>\n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n<ion-content>\n\n    <form [formGroup]="myForm" (ngSubmit)="saveData()">\n\n        <ion-list>\n\n            <ion-item>\n\n                <ion-icon name="person" item-start></ion-icon>\n\n                <ion-label stacked>Nombres:</ion-label>\n\n                <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-icon name="mail" item-start></ion-icon>\n\n                <ion-label stacked>Correo electronico:</ion-label>\n\n                <ion-input formControlName="email" ngModel type="email" placeholder="Email" required email></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-icon name="eye" item-start></ion-icon>\n\n                <ion-label stacked>Contraseña:</ion-label>\n\n                <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>\n\n            </ion-item>\n\n        </ion-list>\n\n        <div padding>\n\n            <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>\n\n        </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\login\login.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
@@ -453,7 +453,7 @@ var RegistroPage = /** @class */ (function () {
     };
     RegistroPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-registro',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\registro\registro.html"*/'<!--\n\n  Generated template for the RegistroPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n    <ion-navbar>\n\n        <ion-title>registro</ion-title>\n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n    <form [formGroup]="myForm" (ngSubmit)="saveData()">\n\n        <ion-list>\n\n            <ion-item>\n\n                <ion-icon name="person" item-start></ion-icon>\n\n                <ion-label stacked>Nombres:</ion-label>\n\n                <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-icon name="mail" item-start></ion-icon>\n\n                <ion-label stacked>Correo electronico:</ion-label>\n\n                <ion-input formControlName="email" ngModel type="email" placeholder="Email" required email></ion-input>\n\n            </ion-item>\n\n            <div formGroupName="passwordRetry">\n\n                <ion-item>\n\n                    <ion-icon name="eye" item-start></ion-icon>\n\n                    <ion-label stacked>Contraseña:</ion-label>\n\n                    <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>\n\n                </ion-item>\n\n                <ion-item>\n\n                    <ion-icon name="eye" item-start></ion-icon>\n\n                    <ion-label stacked>Confirmar contraseña:</ion-label>\n\n                    <ion-input formControlName="passwordConfirmation" type="password" placeholder="Confirmar contraseña"></ion-input>\n\n                </ion-item>\n\n            </div>\n\n        </ion-list>\n\n        <div padding>\n\n            <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>\n\n        </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\registro\registro.html"*/,
+            selector: 'page-registro',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\registro\registro.html"*/'<!--\n\n  Generated template for the RegistroPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n    <ion-navbar>\n\n        <ion-title>registro</ion-title>\n\n    </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content>\n\n    <form [formGroup]="myForm" (ngSubmit)="saveData()">\n\n        <ion-list>\n\n            <ion-item>\n\n                <ion-icon name="person" item-start></ion-icon>\n\n                <ion-label stacked>Nombres:</ion-label>\n\n                <ion-input formControlName="name" type="text" placeholder="Nombre"></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-icon name="mail" item-start></ion-icon>\n\n                <ion-label stacked>Correo electronico:</ion-label>\n\n                <ion-input formControlName="email" ngModel type="email" placeholder="Email" required email></ion-input>\n\n            </ion-item>\n\n            <div formGroupName="passwordRetry">\n\n                <ion-item>\n\n                    <ion-icon name="eye" item-start></ion-icon>\n\n                    <ion-label stacked>Contraseña:</ion-label>\n\n                    <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>\n\n                </ion-item>\n\n                <ion-item>\n\n                    <ion-icon name="eye" item-start></ion-icon>\n\n                    <ion-label stacked>Confirmar contraseña:</ion-label>\n\n                    <ion-input formControlName="passwordConfirmation" type="password" placeholder="Confirmar contraseña"></ion-input>\n\n                </ion-item>\n\n            </div>\n\n        </ion-list>\n\n        <div padding>\n\n            <button ion-button block type="submit" [disabled]="!myForm.valid">Guardar</button>\n\n        </div>\n\n    </form>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\registro\registro.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* NavParams */],
@@ -590,7 +590,7 @@ var HomePage = /** @class */ (function () {
     ], HomePage.prototype, "mapElement", void 0);
     HomePage = HomePage_1 = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\home\home.html"*/'<!--HEADER-->\n<ion-header>\n    <ion-navbar>\n        <ion-title style="float:left">Mapa</ion-title>\n\n\n        <ion-toggle style="float: right" [(ngModel)]="proveedor.opcion"></ion-toggle>\n        <ion-label style="float: right" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>\n        <button small ion-button icon-only style="float: right" (click)="recargarPag()"><ion-icon name="refresh"></ion-icon></button>\n        <button small ion-button icon-only style="float: right" (click)="openarbol()"><ion-icon name="leaf"></ion-icon></button>\n\n    </ion-navbar>\n</ion-header>\n<!--CONTENIDO-->\n\n<ion-content>\n    <!--ion-fab top center edge>\n        <button ion-fab mini color="secondary">\n            <ion-icon name="leaf"></ion-icon>\n        </button>\n        <ion-fab-list>\n            <button ion-fab (click)="openarbol()"><ion-icon name="leaf"></ion-icon></button>\n            <button ion-fab (click)="recargar()"><ion-icon name="refresh"></ion-icon></button>\n        </ion-fab-list>\n    </ion-fab-->\n\n    <div #map id="map"></div>\n</ion-content>\n\n<!--FOOTER-->\n\n<ion-footer>\n\n\n</ion-footer>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\home\home.html"*/'<!--HEADER-->\n\n<ion-header>\n\n    <ion-navbar>\n\n        <ion-title style="float:left">Mapa</ion-title>\n\n\n\n\n\n        <ion-toggle style="float: right" [(ngModel)]="proveedor.opcion"></ion-toggle>\n\n        <ion-label style="float: right" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>\n\n        <button small ion-button icon-only style="float: right" (click)="recargarPag()"><ion-icon name="refresh"></ion-icon></button>\n\n        <button small ion-button icon-only style="float: right" (click)="openarbol()"><ion-icon name="leaf"></ion-icon></button>\n\n\n\n    </ion-navbar>\n\n</ion-header>\n\n<!--CONTENIDO-->\n\n\n\n<ion-content>\n\n    <!--ion-fab top center edge>\n\n        <button ion-fab mini color="secondary">\n\n            <ion-icon name="leaf"></ion-icon>\n\n        </button>\n\n        <ion-fab-list>\n\n            <button ion-fab (click)="openarbol()"><ion-icon name="leaf"></ion-icon></button>\n\n            <button ion-fab (click)="recargar()"><ion-icon name="refresh"></ion-icon></button>\n\n        </ion-fab-list>\n\n    </ion-fab-->\n\n\n\n    <div #map id="map"></div>\n\n</ion-content>\n\n\n\n<!--FOOTER-->\n\n\n\n<ion-footer>\n\n\n\n\n\n</ion-footer>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\home\home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_6__providers_maps_maps__["a" /* MapsProvider */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
@@ -701,7 +701,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_platform_browser__ = __webpack_require__(33);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(291);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_component__ = __webpack_require__(290);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_about_about__ = __webpack_require__(208);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_contact_contact__ = __webpack_require__(210);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_home_home__ = __webpack_require__(213);
@@ -713,7 +713,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ionic_native_splash_screen__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_camera__ = __webpack_require__(163);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_geolocation__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_google_map_google_map__ = __webpack_require__(293);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__components_google_map_google_map__ = __webpack_require__(292);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__providers_pro_arboles_pro_arboles__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__angular_common_http__ = __webpack_require__(35);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_arbol_arbol_module__ = __webpack_require__(162);
@@ -869,6 +869,10 @@ var ProArbolesProvider = /** @class */ (function () {
     ProArbolesProvider.prototype.obtenerUsuarios = function () {
         return this.http.get(this.urlv1 + '/users/');
     };
+    ProArbolesProvider.prototype.addTree = function (tree) {
+        var headers = new Headers({ 'Content-Type': 'application/json' });
+        return this.http.post('http://comunitree.tk:8080/arbol/agregar/', tree);
+    };
     ProArbolesProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
@@ -880,7 +884,7 @@ var ProArbolesProvider = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 291:
+/***/ 290:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -915,7 +919,7 @@ var MyApp = /** @class */ (function () {
         });
     }
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\app\app.html"*/
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\app\app.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
     ], MyApp);
@@ -926,7 +930,7 @@ var MyApp = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 293:
+/***/ 292:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1017,7 +1021,7 @@ var GoogleMapComponent = /** @class */ (function () {
     };
     GoogleMapComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'google-map',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\components\google-map\google-map.html"*/'<div #map id="map"></div>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\components\google-map\google-map.html"*/
+            selector: 'google-map',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\components\google-map\google-map.html"*/'<div #map id="map"></div>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\components\google-map\google-map.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__ionic_native_geolocation__["a" /* Geolocation */]])
     ], GoogleMapComponent);
@@ -1039,9 +1043,7 @@ var GoogleMapComponent = /** @class */ (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_geolocation__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_pro_arboles_pro_arboles__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_common_http__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jquery__ = __webpack_require__(273);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_jquery__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ionic_native_android_permissions__ = __webpack_require__(166);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_android_permissions__ = __webpack_require__(166);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1051,7 +1053,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-
 
 
 
@@ -1147,14 +1148,16 @@ var ArbolPage = /** @class */ (function () {
             + this.fecha.charAt(3);
         console.log(this.fecha);
         console.log(fechatemp);
+        console.log(this.fotografia);
         var datos = {
-            type_id: '1',
+            type_id: '2',
             description: this.descripcion,
             lon: this.lon,
             lat: this.lat,
             size: this.tamano,
             grounded: fechatemp,
-            circumference: this.circunferencia
+            circumference: this.circunferencia,
+            image: this.fotografia
             //hazard: ['1','2']
         };
         /*
@@ -1169,26 +1172,34 @@ var ArbolPage = /** @class */ (function () {
         else {
             url = this.proveedor.apiUrl80;
         }
-        console.log(this.proveedor.apiUrl + '/agregar/');
-        __WEBPACK_IMPORTED_MODULE_6_jquery__["ajax"]({
-            url: url + '/agregar/',
-            type: 'post',
-            dataType: 'json',
-            data: datos,
-            // contentType: 'application/json', <-- no need this.
-            success: function (json) {
-                if (json) {
-                    alert('Árbol agregado');
-                }
-                else {
-                    alert('failed');
-                }
-            },
+        var res = '';
+        console.log(datos);
+        this.proveedor.addTree(datos).subscribe(function (data) {
+            res = data;
+            console.log(res);
         });
+        /*
+        console.log(this.proveedor.apiUrl+'/agregar/');
+        
+        $.ajax({
+          url: url+'/agregar/',
+          type: 'post',
+          dataType: 'json',
+          data: datos,
+          // contentType: 'application/json', <-- no need this.
+          success: function(json) {
+            if (json) {
+                alert('Árbol agregado');
+            } else {
+                alert('failed');
+            }
+          },
+        });
+      */
     };
     ArbolPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-arbol',template:/*ion-inline-start:"D:\Project\SW2_geoTrees\appmovil\src\pages\arbol\arbol.html"*/'<!--\n\n  Generated template for the ArbolPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n    <ion-navbar>\n\n        <ion-title style="float:left">Árbol</ion-title>\n\n        <!--ion-toggle style="float: right" [(ngModel)]="proveedor.opcion"></ion-toggle-->\n\n        <ion-label style="float: right" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>\n\n    </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n    <ion-list>\n\n        <ion-card>\n\n            <ion-item>\n\n                <ion-label stacked>Nombre</ion-label>\n\n                <ion-input type="text" [(ngModel)]="nombre"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n                <ion-label stacked>Descripción</ion-label>\n\n                <ion-input type="text" [(ngModel)]="descripcion"></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-label stacked>Tamaño</ion-label>\n\n                <ion-input type="number" [(ngModel)]="tamano"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n                <ion-label stacked>Circunferencia</ion-label>\n\n                <ion-input type="number" [(ngModel)]="circunferencia"></ion-input>\n\n            </ion-item>\n\n\n\n        </ion-card>\n\n\n\n\n\n        <ion-item>\n\n            <ion-label>Fecha</ion-label>\n\n            <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="fecha"></ion-datetime>\n\n        </ion-item>\n\n\n\n\n\n        <ion-item>\n\n            <div text-start>\n\n                Coordenadas\n\n                <button ion-button color="gris" outline item-end icon-start (click)="mylocation()">\n\n                        <ion-icon color="primary" name="compass"></ion-icon>\n\n                        actualizar coordenadas\n\n                </button>\n\n            </div>\n\n            <div>\n\n\n\n            </div>\n\n\n\n            <div>\n\n                <div float-left>\n\n                    <p>\n\n                        lat: {{lat}}\n\n                    </p>\n\n                </div>\n\n                <div float-right>\n\n                    <p>\n\n                        lon: {{lon}}\n\n                    </p>\n\n                </div>\n\n\n\n            </div>\n\n        </ion-item>\n\n\n\n\n\n\n\n        <ion-item>\n\n            <p>Fotografia</p>\n\n            <img [src]="fotografia" *ngIf="fotografia" />\n\n        </ion-item>\n\n\n\n        <ion-label>\n\n            <button ion-button full icon-start (click)="sacarfoto()">\n\n                        Tomar Fotografia \n\n                        <ion-icon name="camera"></ion-icon>\n\n                    </button>\n\n        </ion-label>\n\n\n\n        <ion-label>\n\n            <button ion-button full (click)="subir()">Guardar</button>\n\n        </ion-label>\n\n\n\n    </ion-list>\n\n</ion-content>'/*ion-inline-end:"D:\Project\SW2_geoTrees\appmovil\src\pages\arbol\arbol.html"*/,
+            selector: 'page-arbol',template:/*ion-inline-start:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\arbol\arbol.html"*/'<!--\n\n  Generated template for the ArbolPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n    <ion-navbar>\n\n        <ion-title style="float:left">Árbol</ion-title>\n\n        <!--ion-toggle style="float: right" [(ngModel)]="proveedor.opcion"></ion-toggle-->\n\n        <ion-label style="float: right" color="gris">puerto: {{this.proveedor.puerto}}</ion-label>\n\n    </ion-navbar>\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n    <ion-list>\n\n        <ion-card>\n\n            <ion-item>\n\n                <ion-label stacked>Nombre</ion-label>\n\n                <ion-input type="text" [(ngModel)]="nombre"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n                <ion-label stacked>Descripción</ion-label>\n\n                <ion-input type="text" [(ngModel)]="descripcion"></ion-input>\n\n            </ion-item>\n\n            <ion-item>\n\n                <ion-label stacked>Tamaño</ion-label>\n\n                <ion-input type="number" [(ngModel)]="tamano"></ion-input>\n\n            </ion-item>\n\n\n\n            <ion-item>\n\n                <ion-label stacked>Circunferencia</ion-label>\n\n                <ion-input type="number" [(ngModel)]="circunferencia"></ion-input>\n\n            </ion-item>\n\n\n\n        </ion-card>\n\n\n\n\n\n        <ion-item>\n\n            <ion-label>Fecha</ion-label>\n\n            <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="fecha"></ion-datetime>\n\n        </ion-item>\n\n\n\n\n\n        <ion-item>\n\n            <div text-start>\n\n                Coordenadas\n\n                <button ion-button color="gris" outline item-end icon-start (click)="mylocation()">\n\n                        <ion-icon color="primary" name="compass"></ion-icon>\n\n                        actualizar coordenadas\n\n                </button>\n\n            </div>\n\n            <div>\n\n\n\n            </div>\n\n\n\n            <div>\n\n                <div float-left>\n\n                    <p>\n\n                        lat: {{lat}}\n\n                    </p>\n\n                </div>\n\n                <div float-right>\n\n                    <p>\n\n                        lon: {{lon}}\n\n                    </p>\n\n                </div>\n\n\n\n            </div>\n\n        </ion-item>\n\n\n\n        <ion-item>\n\n            <p>Fotografia</p>\n\n            <img [src]="fotografia" *ngIf="fotografia" />\n\n        </ion-item>\n\n\n\n        <ion-label>\n\n            <button ion-button full icon-start (click)="sacarfoto()">\n\n                        Tomar Fotografia \n\n                        <ion-icon name="camera"></ion-icon>\n\n                    </button>\n\n        </ion-label>\n\n\n\n        <ion-label>\n\n            <button ion-button full (click)="subir()">Guardar</button>\n\n        </ion-label>\n\n\n\n    </ion-list>\n\n</ion-content>'/*ion-inline-end:"C:\Users\Kevin\Desktop\ComuniTree\appmovil\src\pages\arbol\arbol.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_2__ionic_native_camera__["a" /* Camera */],
@@ -1196,7 +1207,7 @@ var ArbolPage = /** @class */ (function () {
             __WEBPACK_IMPORTED_MODULE_4__providers_pro_arboles_pro_arboles__["a" /* ProArbolesProvider */],
             __WEBPACK_IMPORTED_MODULE_5__angular_common_http__["a" /* HttpClient */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-            __WEBPACK_IMPORTED_MODULE_7__ionic_native_android_permissions__["a" /* AndroidPermissions */]])
+            __WEBPACK_IMPORTED_MODULE_6__ionic_native_android_permissions__["a" /* AndroidPermissions */]])
     ], ArbolPage);
     return ArbolPage;
 }());
@@ -1304,8 +1315,7 @@ var NativeMapsProvider = /** @class */ (function () {
             'coordenadas: ' + arbol.lat + ' / ' + arbol.lon + '<br/>',
             'descripción: ' + arbol.description + '<br/>',
             'tamaño: ' + arbol.size + '<br/>',
-            'fecha: ' + arbol.grounded + '</p>',
-            '<input type="button" value="Reportar" class="button button-default" onclick="return this.irReporte();">'
+            'fecha: ' + arbol.grounded + '</p>'
         ].join("");
         htmlInfoWindow.setContent(frame, {
             width: "280px",

@@ -755,28 +755,10 @@ def add_tree(request):
         tree.lon = float(data["lon"])
         tree.lat = float(data["lat"])
         tree.size = int(data["size"])
-        date = datetime.datetime.strptime(data["grounded"], "%d/%m/%Y")
-        tree.grounded = date
         tree.circumference = int(data["circumference"])
-
+        tree.image = data["image"]
         tree.save()
 
-        hazard_list = request.POST.getlist("hazard")
-        hazard_list = list(map(int, hazard_list))
-
-        if len(hazard_list) != 0:
-            for idx in hazard_list:
-                try:
-                    hazard = Hazard.objects.get(pk=idx)
-                    tree.hazard.add(hazard)
-                except Hazard.DoesNotExist:
-                    data = {
-                        'ok': False,
-                        'message': 'Hazard with id {} does not exists'.format(idx)
-                    }
-                    return JSONResponse(data)
-
-        tree.save()
         serializer = TreeSerializer(tree)
 
         data = {

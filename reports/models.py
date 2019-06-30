@@ -4,21 +4,34 @@ from users.models import CustomUser
 
 # Create your models here.
 
+class Hazard(models.Model):
+    name = models.CharField(max_length=150, verbose_name='Nombre')
+    description = models.TextField(verbose_name='Descripción', blank=True)
+    characteristic = models.TextField(verbose_name='Caracteristica', blank=True)
+    active = models.BooleanField(default=True, verbose_name='Activo')
+    created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
+    updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición')
+
+    class Meta:
+        verbose_name = "amenaza"
+        verbose_name_plural = "amenazas"
+
+    def __str__(self):
+        return self.name
+
 class Report(models.Model):
 	tree = models.ForeignKey(Tree, on_delete=models.CASCADE, verbose_name='Árbol reportado')
-	title = models.CharField(max_length=100, verbose_name='Título')
 	description = models.TextField(verbose_name='Descripcion')
-	uploaded_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name='Subido por')
-	active = models.BooleanField(default=True, verbose_name='Activo')
+	cable_proximity = models.IntegerField(default=0)
+	plague = models.BooleanField(default=0)
+	other = models.BooleanField(default=0)
+	uploaded_by = models.TextField(max_length=100, verbose_name='Enviado por')
 	created = models.DateTimeField(auto_now_add=True, verbose_name='Fecha de creación')
-	updated = models.DateTimeField(auto_now=True, verbose_name='Fecha de edición')
+	image = models.TextField(blank=True, verbose_name='Imagen')
 
 	class Meta:
 		verbose_name = "reporte"
 		verbose_name_plural = "reportes"
-	
-	def __str__(self):
-		return self.title
 
 class PhotoReport(models.Model):
 	name = models.CharField(max_length=150, verbose_name='Nombre')
@@ -35,3 +48,4 @@ class PhotoReport(models.Model):
 
 	def __str__(self):
 		return self.name
+
