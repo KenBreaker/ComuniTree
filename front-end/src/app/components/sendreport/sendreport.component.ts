@@ -25,9 +25,12 @@ export class SendreportComponent implements OnInit {
 	tree: any;
 	report = {
 		tree_id: '',
-		title: 'Reporte ComuniTree',
-		description: '',
-		user_email: ''
+		description: 'Sin Descripción',
+		user_email: 'Usuario anónimo',
+		cable_proximity: '0',
+		plague: false,
+		image : 'Sin Imagen',
+		other : false
 	};
 	user = {
 		email: '',
@@ -40,10 +43,6 @@ export class SendreportComponent implements OnInit {
 		private auth: AuthService,
 		private http: HttpClient
 	) {
-		this.options = fb.group({
-		  color: 'primary',
-		  fontSize: [16, Validators.min(10)],
-		});
 		auth.handleAuthentication();
 	}
 
@@ -68,6 +67,7 @@ export class SendreportComponent implements OnInit {
 
 	submit(form: NgForm): void {
 		let usr = '';
+		console.log(this.report)
 		this.sendReport();
 	}
 	getFontSize() {

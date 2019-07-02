@@ -17,7 +17,7 @@
 
         <div class ="example-cont">
         <mat-form-field>
-            <mat-select placeholder="Distancia al cableado eléctrico" required default=0>
+            <mat-select [(ngModel)]="report.cable_proximity" name="lat" #cable_proximity="ngModel" placeholder="Distancia al cableado eléctrico" required default=0>
             <mat-option value="0">Lejos</mat-option>
             <mat-option value="1">Cercano</mat-option>
             <mat-option value="2">Tocando los cables</mat-option>
@@ -26,23 +26,30 @@
         </div>
         <div class ="example-cont">
         <mat-label>Tiene algun tipo de plaga?</mat-label>
-        <mat-radio-group>
-        <mat-radio-button value="0" [checked]="1">No</mat-radio-button>
-        <mat-radio-button value="1" >Si</mat-radio-button>
+        <mat-radio-group [(ngModel)]="report.plague" name="plague" #plague="ngModel" value=False>
+        <mat-radio-button value=False [checked]=True>No</mat-radio-button>
+        <mat-radio-button value=True >Si</mat-radio-button>
+        </mat-radio-group>
+        </div>
+
+        <div class ="example-cont">
+        <mat-label>Tiene otro tipo de problema?</mat-label>
+        <mat-radio-group [(ngModel)]="report.other" name="other" #other="ngModel" value=False>
+        <mat-radio-button value=True [checked]=True>No</mat-radio-button>
+        <mat-radio-button value=False >Si</mat-radio-button>
         </mat-radio-group>
         </div>
         <div class ="example-cont">
             <mat-form-field>
-                <mat-label>Describe el problema</mat-label>
+                <mat-label>Describe el problema (Opcional)</mat-label>
                 <div *ngIf="description.errors?.required">
                 </div>
-                <textarea [(ngModel)]="report.description" name="description" #input minlength="4" maxlength="500" matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 #description="ngModel" required></textarea>
+                <textarea [(ngModel)]="report.description" name="description" #input minlength="4" maxlength="500" matInput matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=5 #description="ngModel"></textarea>
                 <mat-hint align="end">{{input.value?.length || 0}}/500</mat-hint>
             </mat-form-field>
             <div *ngIf="description.errors?.minlength">
                 <mat-hint align="end">Minimo {{ description.errors.minlength.requiredLength }} caracteres</mat-hint>
             </div>
-
         </div>
         <button [disabled]="!form.valid" type="submit" mat-raised-button color="primary"> 
             Enviar reporte
