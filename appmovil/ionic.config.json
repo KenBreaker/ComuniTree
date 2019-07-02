@@ -1,7 +1,0 @@
-{
-  "name": "trewa",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "ionic-angular"
-}
