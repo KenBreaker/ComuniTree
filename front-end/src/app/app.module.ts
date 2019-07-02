@@ -50,7 +50,7 @@ import { ReportsTableComponent } from './components/reports-table/reports-table.
 		BrowserAnimationsModule,
 		MaterialModule,
 		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyA0f1JGCUziQ-AXZPASnZ3dq7krgUx_IuU'
+			apiKey: 'AIzaSyCP7DBdMp0oCsy1i2RCxpwxHUD-EREwnqo'
 		}),
 		AppRoutingModule,
 		HttpClientModule

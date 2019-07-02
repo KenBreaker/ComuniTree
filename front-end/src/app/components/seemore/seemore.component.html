@@ -1,4 +1,4 @@
-<div *ngIf="tree" class="container">
+<div *ngIf="tree" class="example-card">
      <mat-card *ngIf="getData(); let tree" class="example-card">
           <mat-card-header>
                <div mat-card-avatar class="example-header-image"></div>
@@ -8,6 +8,7 @@
           <img mat-card-image [src]='tree.image' [alt]='tree.id'>
           <mat-card-content>
                <mat-tab-group>
+                    <div>
                     <mat-tab label="Identificación">
                          <p>Código de identificación: {{ tree.id }}</p>
                          <p>Latitud: {{ tree.lat }}</p>
@@ -18,9 +19,7 @@
                          <p>Radio de circunferencia: {{ tree.circumference }}</p>
                          <p>Altura: {{ tree.size }}</p>
                     </mat-tab>
-                    <mat-tab label="Peligros">
-                         <p *ngFor="let hazard of tree.hazard; let i = index"> Peligro {{ (1+i) }}: {{ hazard.description }}. {{ hazard.characteristic }}</p>
-                    </mat-tab>
+                    </div>
                </mat-tab-group>
           </mat-card-content>
           <mat-card-actions>
@@ -29,11 +28,4 @@
                <button *ngIf="(getData() && auth.isAuthenticated() )" (click)="sendReport(tree.id)" mat-raised-button color="warn" type="button">Enviar reporte</button>
           </mat-card-actions>
      </mat-card>
-     <div #sidenav *ngIf="tree">
-          <cdk-virtual-scroll-viewport itemSize="3" class="list-container">
-               <div class="caja" *ngFor="let img of tree.photos">
-                    <img [src]='tree.image' height="300px" width="300px">
-               </div>
-          </cdk-virtual-scroll-viewport>
-     </div>
 </div>
