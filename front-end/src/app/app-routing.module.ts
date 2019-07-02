@@ -13,10 +13,10 @@ import { AuthGuardService } from './services/auth-guard.service';
 const routes: Routes = [
 	{ path: 'home', component: HomeComponent },
 	{ path: 'map', component: MapComponent },
-	{ path: 'sendreport/:idx', component: SendreportComponent/*, canActivate: [AuthGuardService]*/ },
+	{ path: 'sendreport/:idx', component: SendreportComponent, canActivate: [AuthGuardService] },
 	{ path: 'seemore/:idx', component: SeemoreComponent },
 	{ path: 'alerts', component: AlertsComponent },
-{ path: 'dashboard', component: DashboardComponent/*, canActivate: [AuthGuardService]*/ },
+	{ path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
 	{ path: 'success', component: SuccessComponent },
 	{ path: '', pathMatch: 'full', redirectTo: 'home' },
 	// { path: '**', pathMatch: 'full', redirectTo: 'home' }

@@ -3,7 +3,9 @@
     flex-direction: column;
     padding: 10px;
 }
-
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
 .example-container>* {
     width: 50%;
 }

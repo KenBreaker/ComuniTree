@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 // Angular Material
+import {MatRadioModule} from '@angular/material/radio';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -21,10 +22,12 @@ import { ChartsModule } from 'ng2-charts';
 import { MatTableModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
-
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 @NgModule({
 	imports: [
 		CommonModule,
+		MatSlideToggleModule,
+		MatRadioModule,
 		MatToolbarModule,
 		MatButtonModule,
 		MatProgressBarModule,
@@ -48,6 +51,8 @@ import { MatSortModule } from '@angular/material';
 	],
 	exports: [
 		MatToolbarModule,
+		MatRadioModule,
+		MatSlideToggleModule,
 		MatButtonModule,
 		MatProgressBarModule,
 		MatCardModule,

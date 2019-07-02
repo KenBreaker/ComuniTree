@@ -26,7 +26,7 @@ SECRET_KEY = '5*gt-_cqyxv5idqvk4x+kl=-(9e&)+m9b2bkwrnpp*^3w56q&4'
 DEBUG = True
 
 
-ALLOWED_HOSTS = ['.comunitree.tk', '186.64.122.194', 'localhost', '127.0.0.1', ]
+ALLOWED_HOSTS = ['.comunitree.tk', '35.247.204.141', 'localhost', '127.0.0.1', ]
 
 
 # Application definition

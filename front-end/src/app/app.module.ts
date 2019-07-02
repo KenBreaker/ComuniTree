@@ -1,4 +1,4 @@
-
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
@@ -46,10 +46,11 @@ import { ReportsTableComponent } from './components/reports-table/reports-table.
 		//Ng2SmartTableModule
 	],
 	imports: [
+		BrowserModule,
 		BrowserAnimationsModule,
 		MaterialModule,
 		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyA0f1JGCUziQ-AXZPASnZ3dq7krgUx_IuU'
+			apiKey: 'AIzaSyCP7DBdMp0oCsy1i2RCxpwxHUD-EREwnqo'
 		}),
 		AppRoutingModule,
 		HttpClientModule

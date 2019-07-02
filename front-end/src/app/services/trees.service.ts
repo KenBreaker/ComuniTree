@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class TreesService {
-	private apiUrl = '';
+	private apiUrl = '35.247.204.141:8080';
 	headers = new Headers();
 	private trees: any;
 	private info = {
@@ -15,28 +15,32 @@ export class TreesService {
 	}
 
 	getTree(idx: number): Observable<any> {
-		return this.http.get('http://comunitree.tk:8080/arbol/' + idx + '/');
+		return this.http.get('http://'+this.apiUrl+'/arbol/' + idx + '/');
 	}
 	getUsers(): Observable<any> {
-		return this.http.get('http://comunitree.tk:8080/api/v1/users/');
+		return this.http.get('http://'+this.apiUrl+'/api/v1/users/');
 	}
 	getTrees(): Observable<any> {
-		return this.http.get('http://comunitree.tk:8080/arbol/');
+		return this.http.get('http://'+this.apiUrl+'/arbol/all/');
 	}
 	getReports(): Observable<any> {
-		return this.http.get('http://comunitree.tk:8080/api/v1/reports/list/');
+		return this.http.get('http://'+this.apiUrl+'/api/v1/reports/list/');
 	}
 	getReport(idx: number): Observable<any> {
-		return this.http.get('http://comunitree.tk:8080/api/v1/reports/get/list/' + idx);
+		return this.http.get('http://'+this.apiUrl+'/api/v1/reports/get/list/' + idx);
 	}
 
 	addUser(user): Observable<any> {
 		const headers = new Headers({ 'Content-Type': 'application/json' });
-		return this.http.post('http://comunitree.tk:8080/api/v1/users/', user);
+		return this.http.post('http://'+this.apiUrl+'/api/v1/users/', user);
+	}
+	addTree(user): Observable<any> {
+		const headers = new Headers({ 'Content-Type': 'application/json' });
+		return this.http.post('http://'+this.apiUrl+'/arbol/agregar/', user);
 	}
 
 	addReport(report): Observable<any> {
 		const headers = new Headers({ 'Content-Type': 'application/json' });
-		return this.http.post('http://comunitree.tk:8080/api/v1/reports/create/', report);
+		return this.http.post('http://'+this.apiUrl+'/api/v1/reports/create/', report);
 	}
 }

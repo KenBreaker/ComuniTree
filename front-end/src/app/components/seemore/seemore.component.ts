@@ -14,6 +14,7 @@ export class SeemoreComponent implements OnInit {
   constructor( private router: Router,
     private activatedRoute: ActivatedRoute,
     private _treesService: TreesService, private auth: AuthService) {
+      auth.handleAuthentication();
     }
   ngOnInit() {
     this.activatedRoute.params.subscribe( params => {
