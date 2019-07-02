@@ -1,0 +1,4 @@
+#Wed Dec 05 18:48:27 CLST 2018
+base.0=D\:\\Project\\SW2_geoTrees\\appmovil\\platforms\\android\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
