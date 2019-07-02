@@ -2,7 +2,7 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TreesService } from '../../services/trees.service';
 import { Router } from '@angular/router';
-import { FormControl, FormGroupDirective, NgForm, Validators, EmailValidator } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators, EmailValidator } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { CDK_CONNECTED_OVERLAY_SCROLL_STRATEGY_PROVIDER } from '@angular/cdk/overlay/typings/overlay-directives';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -21,6 +21,7 @@ import { Http, Response } from '@angular/http';
 
 export class SendreportComponent implements OnInit {
 	profile;
+	options: FormGroup;
 	tree: any;
 	report = {
 		tree_id: '',
@@ -32,12 +33,17 @@ export class SendreportComponent implements OnInit {
 		email: '',
 		username: ''
 	};
-	constructor(private router: Router,
+	constructor(private fb: FormBuilder,
+		private router: Router,
 		private activatedRoute: ActivatedRoute,
 		private _treesService: TreesService,
 		private auth: AuthService,
 		private http: HttpClient
 	) {
+		this.options = fb.group({
+		  color: 'primary',
+		  fontSize: [16, Validators.min(10)],
+		});
 		auth.handleAuthentication();
 	}
 
@@ -62,27 +68,11 @@ export class SendreportComponent implements OnInit {
 
 	submit(form: NgForm): void {
 		let usr = '';
-		this._treesService.getUsers().subscribe(data => {
-			usr = data;
-			this.confirmMail(usr);
-		});
+		this.sendReport();
 	}
-	confirmMail(user) {
-		user = user.map(obj => obj.email);
-		let res;
-		const mail = this.profile.nickname + '@gmail.com';
-		this.report.user_email = mail;
-		if (user.includes(mail) === false) {
-			this._treesService.addUser(this.user).subscribe(data => {
-				res = data;
-				console.log(res);
-				this.sendReport();
-			});
-		} else {
-			this.sendReport();
-		}
-	}
-
+	getFontSize() {
+		return Math.max(10, this.options.value.fontSize);
+	  }
 	sendReport() {
 		let res = '';
 		this._treesService.addReport(this.report).subscribe(data => {

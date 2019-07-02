@@ -1,10 +1,11 @@
 <div class="example-cont">
     <form (ngSubmit)="submit(form)" #form="ngForm" class="example-form" *ngIf="tree" novalidate="">
 
-        <mat-form-field class="Id">
+        <mat-form-field class="Id" class ="example-cont">
             <input matInput placeholder="Codigo Arbol" disabled value="{{ tree.id }}">
         </mat-form-field>
 
+        <div class ="example-cont">
         <mat-form-field class="Latitud">
             <input matInput placeholder="Latitud" disabled value="{{ tree.lat }}">
         </mat-form-field>
@@ -12,8 +13,25 @@
         <mat-form-field class="Longitud">
             <input matInput placeholder="Longitud" disabled value="{{ tree.lon }}">
         </mat-form-field>
+        </div>
 
-        <div class="example-container">
+        <div class ="example-cont">
+        <mat-form-field>
+            <mat-select placeholder="Distancia al cableado eléctrico" required default=0>
+            <mat-option value="0">Lejos</mat-option>
+            <mat-option value="1">Cercano</mat-option>
+            <mat-option value="2">Tocando los cables</mat-option>
+            </mat-select>
+        </mat-form-field>
+        </div>
+        <div class ="example-cont">
+        <mat-label>Tiene algun tipo de plaga?</mat-label>
+        <mat-radio-group>
+        <mat-radio-button value="0" [checked]="1">No</mat-radio-button>
+        <mat-radio-button value="1" >Si</mat-radio-button>
+        </mat-radio-group>
+        </div>
+        <div class ="example-cont">
             <mat-form-field>
                 <mat-label>Describe el problema</mat-label>
                 <div *ngIf="description.errors?.required">
