@@ -21,6 +21,7 @@ import { ChartsModule } from 'ng2-charts';
 import { MatTableModule } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { MatSortModule } from '@angular/material';
+
 @NgModule({
 	imports: [
 		CommonModule,

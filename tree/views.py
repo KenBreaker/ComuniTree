@@ -31,7 +31,7 @@ class JSONResponse(HttpResponse):
 
 def list_tree(request):
     if request.method == 'GET':
-        trees = Tree.objects.filter(active=True)
+        trees = Tree.objects.all()
         serializer = TreeSerializer(trees, many=True)
         data = {
             'ok': True,
