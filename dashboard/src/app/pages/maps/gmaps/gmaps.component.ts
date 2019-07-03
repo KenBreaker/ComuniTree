@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { TreesService } from '../../../services/trees.service'; 
-
+import predictions from "./predictions.json"
 @Component({
   selector: 'ngx-gmaps',
   styleUrls: ['./gmaps.component.scss'],
@@ -14,7 +14,7 @@ import { TreesService } from '../../../services/trees.service';
           <strong style="color:black">ComuniTree</strong>
           <p style="color:black">ID árbol = {{ tree.id }} </p>
           <p *ngIf=tree_reports style="color:black">Cantidad de reportes = {{ tree_reports[i] }} </p>
-          <p style="color:black">Nivel de riesgo = {{ tree.lon }} </p>
+          <p style="color:black">Nivel de riesgo actual = {{ predict[i].prediction[0].risk }} </p>
           </agm-info-window>
           </agm-marker>
         </agm-map>
@@ -23,11 +23,11 @@ import { TreesService } from '../../../services/trees.service';
   `,
 })
 export class GmapsComponent {
-  lat = -33.360863;
-  lng = -70.736728;
+  lat = -33.359293;
+  lng = -70.734355;
   trees
   tree_reports = []
-
+  predict
   constructor(private _treesService: TreesService) {
 
   }
@@ -36,7 +36,8 @@ export class GmapsComponent {
 		this._treesService.getTrees().subscribe(
 			data => {
         this.trees = data.data;
-        console.log(this.trees)
+        console.log(this.predict = predictions)
+        
         for (let i = 0; i< this.trees.length ; i++){
           //alert (this.trees[i])
           this._treesService.getReport(this.trees[i].id).subscribe(
