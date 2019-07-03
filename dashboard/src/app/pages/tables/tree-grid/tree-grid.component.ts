@@ -37,7 +37,6 @@ export class TreeGridComponent {
 			aux => {
         this.trees = aux.data;
         for (let i = 0; i< this.trees.length ; i++){
-          //alert (this.trees[i])
           this._treesService.getReport(this.trees[i].id).subscribe(
             aux => {
               if(aux.length > 0){
@@ -48,7 +47,7 @@ export class TreeGridComponent {
             });
       }
       this.data = [
-        { data: { Árbol: 'ID = 12', Fecha: '-', Riesgo: '-', Dias_pronosticados: 5},
+        { data: { Árbol: 'ID = 12', Fecha: '-',Dias_pronosticados: 5, Riesgo: '-', },
           children: [
           { data: { Árbol: '-', Riesgo: 'Bajo', Fecha: "2019-07-03" } },
           { data: { Árbol: '-', Riesgo: 'Bajo', Fecha: "2019-07-04" } },
@@ -200,10 +199,10 @@ export class TreeGridComponent {
   `,
 })
 export class FsIconComponent {
-  @Input() plague: string;
+  @Input() Riesgo: string;
   @Input() expanded: boolean;
 
   isDir(): boolean {
-    return this.plague === 'dir';
+    return true;
   }
 }
