@@ -61,4 +61,4 @@ class Predictor:
                 prediction_value = "Alto"
             _predictions.append({'date': data[i][1], 'risk': prediction_value})
         with open("output/predictions.json", "w") as outfile:
-            json.dump(_json, outfile)
+            json.dump(_json, outfile, indent=2)

@@ -1,14 +1,12 @@
 import numpy as np
 import requests
 import json
-import sys
 
 
 class DataHandler(object):
-    def __init__(self, ):
+    def __init__(self):
         self.forecast = self.getWeatherInfo()                               # Se guardará info. relevante del clima
-        # self.trees = self.getTreesInfo(sys.argv[1], sys.argv[2])          # Se guardará info. de los árboles
-        self.trees = self.getTreesInfo(sys.argv[1])
+        self.trees = self.getTreesInfo()                                    # Se guardará info. de los árboles
 
     # Retorna la información del clima según Open Weather Map
     def getWeatherInfo(self):
@@ -31,26 +29,47 @@ class DataHandler(object):
         return forecast
 
     # Retorna la información de los árboles entregada por argumentos ARGV
-    #def getTreesInfo(self, trees_path, reports_path):
-    def getTreesInfo(self, trees_path):
+    @staticmethod
+    def getTreesInfo():
         trees = []
-        try:
-            #reportFile = open(reports_path, "r", encoding='utf-8')
-            treeFile = open(trees_path, "r", encoding='utf-8')
-            #reportData = json.load(reportFile)
-            treeData = json.load(treeFile)
-            #reportFile.close()
-            treeFile.close()
+        treeURL = "http://35.247.204.141:8080/arbol/all/"
+        reportURL = "http://35.247.204.141:8080/api/v1/reports/get/list/1"
+        treeData = requests.get(url=treeURL).json()
+        reportData = requests.get(url=reportURL).json()
 
-            for tree in treeData['data']:
-                idTree = int(tree['id'])
-                height = int(tree['size'])      # CAMBIAR EN BACKEND POR HEIGHT
-                diameter = int(tree['circumference'])      # CAMBIAR EN BACKEND POR DIAMETER
-                trees.append({'id': idTree, 'height': height, 'diameter': diameter})
-        except FileNotFoundError:
-            print("Alguno (o ambos) de los archivos no existe:\n\t" + trees_path)
-            #print("Alguno (o ambos) de los archivos no existe:\n\t" + trees_path + "\n\t" + reports_path)
-            exit(-1)
+        # Almacena el contenido leído de la información de los árbol en la variables trees
+        for tree in treeData['data']:
+            idTree = int(tree['id'])
+            height = int(tree['size'])     # CAMBIAR EN BACKEND POR HEIGHT
+            diameter = int(int(tree['circumference']) / (2 * 3.141593))
+            trees.append({'id': idTree, 'height': height, 'diameter': diameter, 'cable_proximity': 0, 'plague': False})
+
+        # Cuenta la cantidad de veces que se ha reportado un item (proximidad al cable o plaga) para cada árbol
+        _report = {}
+        for report in reportData:
+            if report['tree']['id'] not in _report:
+                _report[report['tree']['id']] = [0 for x in range(4)]
+            if report['cable_proximity'] == 0:
+                _report[report['tree']['id']][0] += 1
+            elif report['cable_proximity'] == 1:
+                _report[report['tree']['id']][1] += 1
+            else:
+                _report[report['tree']['id']][2] += 1
+            if report['plague']:
+                _report[report['tree']['id']][3] += 1
+            else:
+                _report[report['tree']['id']][3] -= 1
+
+        # Ingresa a trees los puntos de riesgo por mayoría (proximidad a cableado, plaga) por cada árbol
+        for key, value in _report.items():
+            for i in range(len(trees)):
+                if trees[i]['id'] == key:
+                    trees[i]['cable_proximity'] = value.index(max(value[:3]))
+                    if value[3] > 0:
+                        trees[i]['plague'] = True
+                    else:
+                        trees[i]['plague'] = False
+                    break
         return trees
 
     # Registra y retorna los máximos valores dentro de los pronósticos de un día
@@ -124,8 +143,9 @@ class DataHandler(object):
             degree.append(self.triangular(value, *choice))
         return degree.index(max(degree))
 
+    @staticmethod
     # Retorna el grado de pertenencia de una variable X a una variable categórica ordinal, según función triangular
-    def triangular(self, x, a, b, c):
+    def triangular(x, a, b, c):
         return max(min((x - a) / (b - a), (c - x) / (c - b)), 0)
 
     # Retorna la data preprocesada y estructurada para predecir
@@ -138,8 +158,8 @@ class DataHandler(object):
                 row.append(day['date'])
                 row.append(tree['height'])
                 row.append(tree['diameter'])
-                row.append(0)                       # Cable_proximity
-                row.append(0)                       # Plague
+                row.append(tree['cable_proximity'])
+                row.append(tree['plague'])
                 row.append(day['humidity'])
                 row.append(day['weather_type'])
                 row.append(day['max_temp'])

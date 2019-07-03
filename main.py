@@ -4,9 +4,11 @@ from prediction_module import Predictor
 
 def predictData():
     data = DataHandler()
+    # data.printTreesInfo()
+    # data.printForecastInfo()
     data.fuzzifyData()
-    data = data.preprocessData()
-    predictions = Predictor(data)
+    preprocessedData = data.preprocessData()
+    Predictor(preprocessedData)
 
 
 def trainModel():

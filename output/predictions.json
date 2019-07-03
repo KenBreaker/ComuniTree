@@ -1,1 +1,352 @@
-[{"id": 8, "prediction": [{"date": "2019-07-02", "risk": "Bajo"}, {"date": "2019-07-03", "risk": "Bajo"}, {"date": "2019-07-04", "risk": "Bajo"}, {"date": "2019-07-05", "risk": "Bajo"}, {"date": "2019-07-06", "risk": "Bajo"}]}, {"id": 9, "prediction": [{"date": "2019-07-02", "risk": "Bajo"}, {"date": "2019-07-03", "risk": "Bajo"}, {"date": "2019-07-04", "risk": "Bajo"}, {"date": "2019-07-05", "risk": "Bajo"}, {"date": "2019-07-06", "risk": "Bajo"}]}, {"id": 10, "prediction": [{"date": "2019-07-02", "risk": "Bajo"}, {"date": "2019-07-03", "risk": "Bajo"}, {"date": "2019-07-04", "risk": "Bajo"}, {"date": "2019-07-05", "risk": "Bajo"}, {"date": "2019-07-06", "risk": "Bajo"}]}, {"id": 11, "prediction": [{"date": "2019-07-02", "risk": "Bajo"}, {"date": "2019-07-03", "risk": "Bajo"}, {"date": "2019-07-04", "risk": "Bajo"}, {"date": "2019-07-05", "risk": "Bajo"}, {"date": "2019-07-06", "risk": "Bajo"}]}]
+[
+  {
+    "id": 12,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 19,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 20,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 21,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 22,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 23,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 24,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  },
+  {
+    "id": 25,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-07",
+        "risk": "Bajo"
+      }
+    ]
+  }
+]
