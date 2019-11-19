@@ -1,0 +1,38 @@
+# in Dockerfile:
+
+mkdir /code
+
+workdir /code
+
+copy . /code
+
+run pip install -r requeriments.txt
+
+expose some_port
+
+cmd python manage.py runserver 0:$PORT
+
+
+# heroku
+
+heroku create appName
+
+# project settings.py
+ALLOWED_HOSTS = ['appName.herokuapp.com', ]
+
+
+# heroku again
+
+heroku container:push web --app appName
+heroku logs --tail
+
+# the last line will see the status of the app
+# if the app goes down, try the next command
+
+heroku ps:scale web=1
+
+# this will set dynos up
+# restart and check the logs. If it goes up, congrats, if stills down, cry
+
+heroku restart --app appName
+heroku logs --tail
