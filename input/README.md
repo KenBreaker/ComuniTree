@@ -1,0 +1,1 @@
+Esta carpeta tiene como finalidad almacenar los datos de entrenamiento y evaluación para ComuniTree. Adicionalmente, contiene el archivo <em>city.list.json</em> con el código de ciudades y países, provisto por Open Weather API
