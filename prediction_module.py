@@ -48,8 +48,9 @@ class Predictor:
         _json = []
         _predictions = []
         _id = data[0][0]
-        for i in range(len(data)):
-            if _id != data[i][0]:
+        _len = len(data)
+        for i in range(_len):
+            if i + 1 == _len or _id != data[i][0]:
                 _json.append({'id': _id, 'prediction': _predictions})
                 _id = data[i][0]
                 _predictions = []

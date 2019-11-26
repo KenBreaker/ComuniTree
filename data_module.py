@@ -1,4 +1,3 @@
-import numpy as np
 import requests
 import json
 
@@ -33,7 +32,7 @@ class DataHandler(object):
     def getTreesInfo():
         trees = []
         treeURL = "http://35.247.204.141:8080/arbol/all/"
-        reportURL = "http://35.247.204.141:8080/api/v1/reports/get/list/1"
+        reportURL = "http://35.247.204.141:8080/api/v1/reports/list/"
         treeData = requests.get(url=treeURL).json()
         reportData = requests.get(url=reportURL).json()
 

@@ -348,5 +348,26 @@
         "risk": "Bajo"
       }
     ]
+  },
+  {
+    "id": 26,
+    "prediction": [
+      {
+        "date": "2019-07-03",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-04",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-05",
+        "risk": "Bajo"
+      },
+      {
+        "date": "2019-07-06",
+        "risk": "Bajo"
+      }
+    ]
   }
 ]
