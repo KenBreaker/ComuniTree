@@ -1,13 +1,22 @@
 from sklearn.ensemble import RandomForestClassifier
 from sklearn import tree
+from joblib import dump, load
 import json
 
 class Predictor:
     def __init__(self, data):
-        self.classifier = self.trainModel()
+        self.classifier = self.getPredictiveModel()
         self.predictions = self.predictRisk(data)
         self.writeToJSONFile(data, self.predictions)
 
+    # Carga un modelo predictivo o lo crea en caso de no existir
+    def getPredictiveModel(self):
+        try:
+            clf = load('output/rfc.joblib')
+        except FileNotFoundError:
+            clf = self.trainModel()
+        return clf
+    
     # Crea un árbol de decisión según el dataset provisto
     @staticmethod
     def trainModel():
@@ -31,7 +40,9 @@ class Predictor:
         except FileNotFoundError:
             print("El archivo " + filepath + " no existe")
             exit(-1)
-        return tree.DecisionTreeClassifier().fit(attributes, target)
+        clf = tree.DecisionTreeClassifier().fit(attributes, target)
+        dump(clf, 'output/rfc.joblib')
+        return clf
 
     # Predice riesgos en Alto(0), Medio(1), Bajo(2)
     def predictRisk(self, data):

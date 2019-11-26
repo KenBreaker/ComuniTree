@@ -31,8 +31,8 @@ class DataHandler(object):
     @staticmethod
     def getTreesInfo():
         trees = []
-        treeURL = "http://35.247.204.141:8080/arbol/all/"
-        reportURL = "http://35.247.204.141:8080/api/v1/reports/list/"
+        treeURL = "http://35.247.252.59:8080/arbol/all/"                   # ComuniTree Árboles JSON
+        reportURL = "http://35.247.252.59:8080/api/v1/reports/list/"       # ComuniTree Reporte de árboles JSON
         treeData = requests.get(url=treeURL).json()
         reportData = requests.get(url=reportURL).json()
 
