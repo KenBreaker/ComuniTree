@@ -7,7 +7,7 @@ def improveModel():
     print("Iniciando generación de nuevo modelo")
     changed = Predictor.generateNewModel()
     if changed:
-        print("Nuevo y mejor modelo guardado")
+        print("Nuevo modelo guardado")
     else:
         print("Nuevo modelo no guardado. El anterior es mejor")
 
@@ -16,6 +16,7 @@ def predictData():
     data = prepareData()
     print("Iniciando predicción...")
     Predictor(data)
+    print("Predicción finalizada.")
 
 
 # Fuzzifica y preprocesa la data
@@ -24,6 +25,7 @@ def prepareData():
     data = DataHandler()
     # data.printForecastInfo()
     data.fuzzifyData()
+    print("Datos listos.")
     return data.preprocessData()
 
 
