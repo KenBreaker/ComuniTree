@@ -33,7 +33,10 @@ class Predictor:
     @classmethod
     def generateNewModel(self) -> 'Predictor':
         self.classifier = self.trainModel(self)
-        self.compareModels(self, self.classifier)
+        improvement = self.compareModels(self)
+        if(self.f_new):
+            self.saveModel(self, self.classifier)
+        return self.f_new, improvement
 
 
     # Carga un modelo predictivo o lo crea en caso de no existir
@@ -49,7 +52,7 @@ class Predictor:
     # Crea un árbol de decisión según el dataset provisto
     def trainModel(self):
         attributes, target = self.readTrainingData()
-        self.evaluateModel(attributes, target)
+        self.evaluateModel(self, attributes, target)
         clf = self.clf_algorithm.fit(attributes, target)
         return clf
 
@@ -96,7 +99,7 @@ class Predictor:
                 target_test.append(target[_test_index])
             clf = self.clf_algorithm.fit(np.array(rows_train), np.array(target_train))
             # Valores de las métricas en array multidimensional. Necesario ordenar con función listPredictResults
-            self.listPredictionResults(precision_recall_fscore_support(target_test, clf.predict(rows_test), average=None, labels=self.labels), len(self.labels))
+            self.listPredictionResults(self, precision_recall_fscore_support(target_test, clf.predict(rows_test), average=None, labels=self.labels), len(self.labels))
 
 
     # Ordena resultados de métricas de evaluación para mejor comprensión
@@ -176,12 +179,33 @@ class Predictor:
             json.dump(_json, outfile, indent=2)
 
 
-    # Compara entre dos modelos y almacena el mejor
-    def compareModels(self, clf):
+    # Compara entre dos modelos y decide si el nuevo se guarda. Retorna el grado de mejora o empeoramiento
+    def compareModels(self):
+        improvement = float(1)
         try: 
-            clf_old = load('output/rfc.joblib')
+            # Chequea que existan ambos archivos o se guarda el nuevo modelo
+            clf_old = load("output/clf.joblib")
+            with open("output/clf_performance.csv", "r") as f:
+                line = ""
+                while "Avg" not in line:
+                    line = f.readline()
         except FileNotFoundError:
-            print("No existe modelo para mejorar. Se guardará el generado actualmente")
-            dump(clf,'output/rfc.joblib')
-            exit(0)
-        clf = self.trainModel()
+            print("Modelo anterior no existe.")
+            self.f_new = True
+            return improvement
+        # Si llegó a EOF y no encontró Avg, el archivo performance tiene formato incorrecto.
+        if "Avg" not in line:
+            print("No se reconoce formato. Se guardará modelo nuevo")
+            self.f_new = True
+        # Compara el f(1)-score promedio del modelo nuevo con el antiguo
+        else:
+            f_avg = float(0)
+            # Calcula el promedio de f(1)-score del nuevo modelo
+            for f in self.f1_score:
+                f_avg += f[len(self.labels)]
+            f_avg = float(f_avg/self.k_fold)
+            f_avg_old = float(line.split(";")[3])
+            improvement = float(f_avg - f_avg_old)
+            if improvement > 0:
+                self.f_new = True
+        return improvement

@@ -4,12 +4,14 @@ import sys
 
 
 def improveModel():
-    print("Iniciando generación de nuevo modelo")
-    changed = Predictor.generateNewModel()
+    print("Iniciando generación de nuevo modelo...")
+    (changed, improvement) = Predictor.generateNewModel()
     if changed:
-        print("Nuevo modelo guardado")
+        print("Nuevo modelo guardado (+" + "{0:.3f}".format(float(improvement*100)) + " de mejora)")
+    elif improvement == float(0):
+        print("Nuevo modelo no guardado (0.00% de mejora)")
     else:
-        print("Nuevo modelo no guardado. El anterior es mejor")
+        print("Nuevo modelo no guardado (-" + "{0:.3f}".format(float(improvement*100*(-1))) + "de mejora)")
 
 
 def predictData():
