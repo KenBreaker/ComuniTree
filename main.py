@@ -20,7 +20,7 @@ def predictData():
 
 # Fuzzifica y preprocesa la data
 def prepareData():
-    print("Preparando datos para predicción...", encoding='utf-8')
+    print("Preparando datos para predicción...")
     data = DataHandler()
     # data.printForecastInfo()
     data.fuzzifyData()
