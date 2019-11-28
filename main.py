@@ -7,11 +7,11 @@ def improveModel():
     print("Iniciando generación de nuevo modelo...")
     (changed, improvement) = Predictor.generateNewModel()
     if changed:
-        print("Nuevo modelo guardado (+" + "{0:.3f}".format(float(improvement*100)) + " de mejora)")
+        print("Nuevo modelo guardado (+" + "{0:.2f}".format(float(improvement*100)) + "% de mejora)")
     elif improvement == float(0):
         print("Nuevo modelo no guardado (0.00% de mejora)")
     else:
-        print("Nuevo modelo no guardado (-" + "{0:.3f}".format(float(improvement*100*(-1))) + "de mejora)")
+        print("Nuevo modelo no guardado (-" + "{0:.2f}".format(float(improvement*100*(-1))) + "% de mejora)")
 
 
 def predictData():

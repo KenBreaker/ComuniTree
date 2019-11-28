@@ -1,3 +1,5 @@
+DecisionTree/
+RFG/
 predictions.json
 clf.joblib
 clf_performance.csv

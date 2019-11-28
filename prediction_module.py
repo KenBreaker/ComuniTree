@@ -8,17 +8,19 @@ import numpy as np
 
 class Predictor:
     # Clasificador y datos
-    clf_algorithm = tree.DecisionTreeClassifier()       # Algoritmo que se utiliza para crear un modelo
-    labels = ['0','1','2']                              # Nombre y cantidad de las etiquetas/clases/target
+    # clf_algorithm = tree.DecisionTreeClassifier(criterion="entropy")                # Algoritmo Decision Tree para la clasificación
+    clf_algorithm = RandomForestClassifier(n_estimators=3, criterion="entropy")     # Algoritmo RFG para la clasificación
+    labels = ['0','1','2']                                                          # Nombre y cantidad de las etiquetas/clases/target
     
     # Flags
-    f_new = False                                       # Bandera para saber si el modelo generado es nuevo o no
+    f_new = False                                                                   # Bandera para saber si el modelo generado es nuevo o no
 
     # Variable y resultados de métricas de evaluación de rendimiento
-    k_fold = 10                                         # Cantidad de splits que se harán para k-fold Cross Validation
-    precision = []                                      # Precision de cada clase (0,1,2) y promedio de todas
-    recall = []                                         # Recall de cada clase (0,1,2) y promedio de todas
-    f1_score = []                                       # F(1)-Score de cada clase (0,1,2) y promedio de todas
+    k_fold = 10                                                                     # Cantidad de splits que se harán para k-fold Cross Validation
+    precision = []                                                                  # Precision de cada clase (0,1,2) y promedio de todas
+    recall = []                                                                     # Recall de cada clase (0,1,2) y promedio de todas
+    f1_score = []                                                                   # F(1)-Score de cada clase (0,1,2) y promedio de todas
+    f1_avg = float(0)                                                               # F(1)-Score promedio entre todos los splits
 
     # Constructor para predicción
     def __init__(self, data):
@@ -100,6 +102,7 @@ class Predictor:
             clf = self.clf_algorithm.fit(np.array(rows_train), np.array(target_train))
             # Valores de las métricas en array multidimensional. Necesario ordenar con función listPredictResults
             self.listPredictionResults(self, precision_recall_fscore_support(target_test, clf.predict(rows_test), average=None, labels=self.labels), len(self.labels))
+            self.f1_avg = self.getScoreAvg(self)
 
 
     # Ordena resultados de métricas de evaluación para mejor comprensión
@@ -199,13 +202,17 @@ class Predictor:
             self.f_new = True
         # Compara el f(1)-score promedio del modelo nuevo con el antiguo
         else:
-            f_avg = float(0)
-            # Calcula el promedio de f(1)-score del nuevo modelo
-            for f in self.f1_score:
-                f_avg += f[len(self.labels)]
-            f_avg = float(f_avg/self.k_fold)
             f_avg_old = float(line.split(";")[3])
-            improvement = float(f_avg - f_avg_old)
+            improvement = float(self.f1_avg - f_avg_old)
+            print('F(1)-Score promedio de modelo nuevo:', self.f1_avg, '\nF(1)-Score promedio de modelo antiguo:', f_avg_old)
             if improvement > 0:
                 self.f_new = True
         return improvement
+
+    # Calcula y guarda el F(1)-Score promedio del nuevo modelo
+    def getScoreAvg(self):
+        f1_avg = float(0)
+        n_labels = len(self.labels)
+        for f in self.f1_score:
+            f1_avg += f[n_labels]
+        return float(f1_avg/self.k_fold)
