@@ -1,4 +1,5 @@
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import precision_recall_fscore_support
 from sklearn.model_selection import KFold
 from sklearn import tree
@@ -8,8 +9,9 @@ import numpy as np
 
 class Predictor:
     # Clasificador y datos
-    # clf_algorithm = tree.DecisionTreeClassifier(criterion="entropy")                # Algoritmo Decision Tree para la clasificación
-    clf_algorithm = RandomForestClassifier(n_estimators=3, criterion="entropy")     # Algoritmo RFG para la clasificación
+    # clf_algorithm = tree.DecisionTreeClassifier(criterion="gini")                # Algoritmo Decision Tree para la clasificación
+    clf_algorithm = RandomForestClassifier(n_estimators=5, criterion="entropy")     # Algoritmo RFG para la clasificación
+    # clf_algorithm = KNeighborsClassifier(n_neighbors=5, algorithm='auto', p=1)      # Algoritmo kNN para la clasificación
     labels = ['0','1','2']                                                          # Nombre y cantidad de las etiquetas/clases/target
     
     # Flags
@@ -34,11 +36,14 @@ class Predictor:
     # Constructor para generar nuevo modelo basado en nueva data
     @classmethod
     def generateNewModel(self) -> 'Predictor':
+        self.precision, self.recall, self.f1_score= [], [], []
+        self.f1_avg = float(0)
+        self.f_new = False
         self.classifier = self.trainModel(self)
         improvement = self.compareModels(self)
         if(self.f_new):
             self.saveModel(self, self.classifier)
-        return self.f_new, improvement
+        return self.f_new, improvement, self.f1_avg
 
 
     # Carga un modelo predictivo o lo crea en caso de no existir
