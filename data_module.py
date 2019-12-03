@@ -15,7 +15,7 @@ class DataHandler(object):
     def getWeatherInfo(self):
         URL = "http://api.openweathermap.org/data/2.5/forecast"             # Open Weather Map API Endpoint
         city_id = "3871336"                                                 # Código de la ciudad. Santiago, Chile = 3871336
-        api_key = "5319c68eecd8e62e6d5a8e9f891d108e"                        # Open Weather Map API key
+        api_key = self.getAPIKey()                                          # Open Weather Map API key
         PARAMS = {'id': city_id, 'APPID': api_key, 'units': 'metric'}       # Definición de parámetros para enviar a la API
         data = requests.get(url=URL, params=PARAMS).json()                  # Guardando valor de la petición GET en formato JSON en la variable data
         forecast_days = 5                                                   # Cantidad de días en el pronóstico que retorna la API
@@ -31,6 +31,17 @@ class DataHandler(object):
             exit(-1)
         return forecast
 
+    
+    # Retorna la API Key de Open Weather Map
+    @staticmethod
+    def getAPIKey():
+        try:
+            with open('input/owm_apikey', 'r') as file:
+                api_key = file.readline()
+            return api_key
+        except FileNotFoundError:
+            print("Error: No se encontró API Key del servicio del clima.")
+            exit(-1)
 
     # Retorna la información de los árboles entregada por argumentos ARGV
     @staticmethod
