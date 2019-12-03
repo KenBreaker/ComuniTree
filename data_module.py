@@ -1,11 +1,15 @@
 import requests
 import json
+import skfuzzy as fuzz
+import numpy as np
+from skfuzzy import control as ctrl
 
 
 class DataHandler(object):
     def __init__(self):
         self.forecast = self.getWeatherInfo()                               # Se guardará info. relevante del clima
         self.trees = self.getTreesInfo()                                    # Se guardará info. de los árboles
+
 
     # Retorna la información del clima según Open Weather Map
     def getWeatherInfo(self):
@@ -27,6 +31,7 @@ class DataHandler(object):
             exit(-1)
         return forecast
 
+
     # Retorna la información de los árboles entregada por argumentos ARGV
     @staticmethod
     def getTreesInfo():
@@ -40,7 +45,7 @@ class DataHandler(object):
         for tree in treeData['data']:
             idTree = int(tree['id'])
             height = int(tree['size'])     # CAMBIAR EN BACKEND POR HEIGHT
-            diameter = int(int(tree['circumference']) / (2 * 3.141593))
+            diameter = int(int(tree['circumference']) / 3.141593)
             trees.append({'id': idTree, 'height': height, 'diameter': diameter, 'cable_proximity': 0, 'plague': False})
 
         # Cuenta la cantidad de veces que se ha reportado un item (proximidad al cable o plaga) para cada árbol
@@ -71,6 +76,7 @@ class DataHandler(object):
                     break
         return trees
 
+
     # Registra y retorna los máximos valores dentro de los pronósticos de un día
     def forecastPerDay(self, forecastList, ini_pos, end_pos):
         # Registro inicial
@@ -100,6 +106,7 @@ class DataHandler(object):
                 'max_temp': temp_max,
                 'wind_speed': wind_speed}
 
+
     # Retorna la posición del elemento correspondiente según el pronóstico
     @staticmethod
     def indexOfWeatherType(weather_type_str):
@@ -117,35 +124,71 @@ class DataHandler(object):
         if weather_type_str == "clouds":
             return 5
         return -1
+    
 
     # Fuzzifica los valores según los fuzzy sets establecidos y la función triangular de membresía
     def fuzzifyData(self):
-        heights = [[1219, 2438, 5000], [609, 1219, 1829], [0, 609, 914]]                                # (cm) Alto, medio, bajo
-        diameters = [[36, 66, 200], [15, 36, 51], [0, 15, 26]]                                          # (cm) Ancho, medio, delgado
-        humidities = [[60, 80, 100], [30, 60, 70], [0, 30, 45]]                                         # (%) Alta, media, baja
-        temps = [[21, 33, 50], [6, 21, 27], [0, 6, 14]]                                                 # (°C) Hot, tempered, cold
-        wind_speeds = [[33.1, 49.6, 60.0], [15.0, 33.1, 41.4], [2.2, 15.0, 24.1], [0, 2.2, 8.7]]        # (mps) Very strong, strong, medium, calm
-        # Transforma los valores leídos previamente a su versión fuzzificada
+        # Se establecen los antecedentes
+        height = ctrl.Antecedent(np.arange(0, 3049, 1), 'Height')
+        diameter = ctrl.Antecedent(np.arange(0, 201, 1), 'Diameter')
+        humidity = ctrl.Antecedent(np.arange(0, 101, 1), 'Humidity')
+        temperature = ctrl.Antecedent(np.arange(-10, 51, 1), 'Temperature')
+        wind_speed = ctrl.Antecedent(np.arange(0, 61, 1), 'Wind speed')
+
+        # Se establecen los rangos
+        height['Short'] = fuzz.trapmf(height.universe, [0, 0, 914, 1219])
+        height['Medium'] = fuzz.trapmf(height.universe, [914, 1219, 2133, 2438])
+        height['Tall'] = fuzz.trapmf(height.universe, [2133, 2438, 3048, 3048])
+        # height.view()
+        # input("Presione Enter para continuar...")
+
+        diameter['Thin'] = fuzz.trapmf(diameter.universe, [0, 0, 30, 61])
+        diameter['Medium'] = fuzz.trapmf(diameter.universe, [30, 61, 91, 121])
+        diameter['Wide'] = fuzz.trapmf(diameter.universe, [91, 121, 182, 182])
+        # diameter.view()
+        # input("Presione Enter para continuar...")
+
+        humidity['Low'] = fuzz.trapmf(humidity.universe, [0, 0, 30, 35])
+        humidity['Medium'] = fuzz.trapmf(humidity.universe, [30, 35, 60, 75])
+        humidity['High'] = fuzz.trapmf(humidity.universe, [60, 75, 100, 100])
+        # humidity.view()
+        # input("Presione Enter para continuar...")
+
+        temperature['Cold'] = fuzz.trapmf(temperature.universe, [-10, -10, 6, 15])
+        temperature['Tempered'] = fuzz.trapmf(temperature.universe, [6, 15, 27, 33])
+        temperature['Hot'] = fuzz.trapmf(temperature.universe, [27, 33, 50, 50])
+        # temperature.view()
+        # input("Presione Enter para continuar...")
+
+        wind_speed['Calm'] = fuzz.trapmf(wind_speed.universe, [0, 0, 12, 22])
+        wind_speed['Mildy strong'] = fuzz.trimf(wind_speed.universe, [12, 37, 42])
+        wind_speed['Strong'] = fuzz.trimf(wind_speed.universe, [37, 46, 49])
+        wind_speed['Very strong'] = fuzz.trapmf(wind_speed.universe, [46, 53, 69, 69])
+        # wind_speed.view()
+        # input("Presione Enter para continuar...")
+
+        # Transforma datos de árboles y clima a su valor cualitativo
         for tree in self.trees:
-            tree['height'] = self.getMaxLikelihoodValue(tree['height'], heights)
-            tree['diameter'] = self.getMaxLikelihoodValue(tree['diameter'], diameters)
+            tree['height'] = self.getFuzzyValue(tree['height'], height)
+            tree['diameter'] = self.getFuzzyValue(tree['diameter'], diameter)
+            #print('ID: ', tree['id'], '| Height:', tree['height'], '| Diameter:', tree['diameter'])
         for day in self.forecast:
-            day['humidity'] = self.getMaxLikelihoodValue(day['humidity'], humidities)
-            day['max_temp'] = self.getMaxLikelihoodValue(day['max_temp'], temps)
-            day['wind_speed'] = self.getMaxLikelihoodValue(day['wind_speed'], wind_speeds)
+            day['humidity'] = self.getFuzzyValue(day['humidity'], humidity)
+            day['max_temp'] = self.getFuzzyValue(day['max_temp'], temperature)
+            day['wind_speed'] = self.getFuzzyValue(day['wind_speed'], wind_speed)
+            #print('Date:', day['date'], '| Humidity:', day['humidity'], '| Max Temp:', day['max_temp'], '| Wind Speed:', day['wind_speed'])
 
-    # Retorna la variable categórica con el mayor grado de pertenencia para el valor de entrada
-    def getMaxLikelihoodValue(self, value, choices):
-        degree = []
-        # Almacena el grado de pertenencia para cada fuzzy set
-        for choice in choices:
-            degree.append(self.triangular(value, *choice))
-        return degree.index(max(degree))
 
+    # Retorna el valor cualitativo de la variable de entrada
     @staticmethod
-    # Retorna el grado de pertenencia de una variable X a una variable categórica ordinal, según función triangular
-    def triangular(x, a, b, c):
-        return max(min((x - a) / (b - a), (c - x) / (c - b)), 0)
+    def getFuzzyValue(value, fuzzy_set):
+        mf_degrees = []
+        for f in fuzzy_set.terms:
+            mf_degrees.append(np.interp(value, fuzzy_set.universe, fuzzy_set[f].mf))
+        # Invertir la lista porque soy imbécil y puse el dataset con valores descendientes
+        mf_degrees.reverse()
+        return mf_degrees.index(max(mf_degrees))
+
 
     # Retorna la data preprocesada y estructurada para predecir
     def preprocessData(self):
@@ -166,16 +209,20 @@ class DataHandler(object):
                 data.append(row)
         return data
 
+
     # Imprime por consola el detalle de los pronósticos en formato JSON
     def printForecastInfo(self):
         print("=================FORECAST=================" + json.dumps(self.forecast, indent=2) + "\n")
+
 
     # Imprime por consola el detalle de cada árbol en formato JSON
     def printTreesInfo(self):
         print("=================TREES=================" + json.dumps(self.trees, indent=2) + "\n")
 
+
     def getForecast(self):
         return self.forecast
+
 
     def getTrees(self):
         return self.trees
