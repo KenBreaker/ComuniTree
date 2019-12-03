@@ -38,12 +38,32 @@ class Predictor:
     def generateNewModel(self) -> 'Predictor':
         self.precision, self.recall, self.f1_score= [], [], []
         self.f1_avg = float(0)
-        self.f_new = False
         self.classifier = self.trainModel(self)
-        improvement = self.compareModels(self)
+        self.f_new = self.compareModels(self)
         if(self.f_new):
             self.saveModel(self, self.classifier)
-        return self.f_new, improvement, self.f1_avg
+        return self.f1_avg
+
+    
+    # Retorna el F(1)-Score promedio del modelo guardado
+    @classmethod
+    def getSavedModelPerformance(self) -> 'Predictor':
+        old_f1_avg = float(0)
+        try: 
+            # Chequea que existan ambos archivos o se guarda el nuevo modelo
+            clf_old = load("output/clf.joblib")
+            with open("output/clf_performance.csv", "r") as f:
+                line = ""
+                while "Avg" not in line:
+                    line = f.readline()
+                # Si llegó a EOF y no encontró Avg, el archivo performance tiene formato incorrecto.
+                if "Avg" not in line:
+                    print("No se reconoce formato. Se guardará modelo nuevo")
+                else:
+                    old_f1_avg = float(line.split(';')[3])
+        except FileNotFoundError:
+            print("Modelo anterior no existe.")
+        return old_f1_avg
 
 
     # Carga un modelo predictivo o lo crea en caso de no existir
@@ -189,30 +209,10 @@ class Predictor:
 
     # Compara entre dos modelos y decide si el nuevo se guarda. Retorna el grado de mejora o empeoramiento
     def compareModels(self):
-        improvement = float(1)
-        try: 
-            # Chequea que existan ambos archivos o se guarda el nuevo modelo
-            clf_old = load("output/clf.joblib")
-            with open("output/clf_performance.csv", "r") as f:
-                line = ""
-                while "Avg" not in line:
-                    line = f.readline()
-        except FileNotFoundError:
-            print("Modelo anterior no existe.")
-            self.f_new = True
-            return improvement
-        # Si llegó a EOF y no encontró Avg, el archivo performance tiene formato incorrecto.
-        if "Avg" not in line:
-            print("No se reconoce formato. Se guardará modelo nuevo")
-            self.f_new = True
-        # Compara el f(1)-score promedio del modelo nuevo con el antiguo
-        else:
-            f_avg_old = float(line.split(";")[3])
-            improvement = float(self.f1_avg - f_avg_old)
-            print('F(1)-Score promedio de modelo nuevo:', self.f1_avg, '\nF(1)-Score promedio de modelo antiguo:', f_avg_old)
-            if improvement > 0:
-                self.f_new = True
-        return improvement
+        if float(self.f1_avg - self.getSavedModelPerformance()) > 0:
+            return True
+        return False
+
 
     # Calcula y guarda el F(1)-Score promedio del nuevo modelo
     def getScoreAvg(self):
