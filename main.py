@@ -3,19 +3,6 @@ from prediction_module import Predictor
 import sys
 import time
 
-'''
-# Intenta mejorar el modelo con la data almacenada en input/
-def improveModel():
-    print("Iniciando generación de nuevo modelo...")
-    (changed, improvement, f1_avg) = Predictor.generateNewModel()
-    if changed:
-        print("Nuevo modelo guardado (+" + "{0:.2f}".format(float(improvement*100)) + "% de mejora)")
-    elif improvement == float(0):
-        print("Nuevo modelo no guardado (0.00% de mejora)")
-    else:
-        print("Nuevo modelo no guardado (-" + "{0:.2f}".format(float(improvement*100*(-1))) + "% de mejora)")
-    return f1_avg
-'''
 
 # Corre la función de mejor de modelo n veces y calcula el promedio de F(1)-Score del promedio de todos los modelos
 def improveModel(test_amount):
@@ -65,12 +52,24 @@ def prepareData():
     return data.preprocessData()
 
 
+# Chequea si un string es número
+def checkStringToInt(valueToCheck, allowNegative=True):
+    try:
+        value = int(valueToCheck)
+        if not allowNegative and value <= 0:
+            return False
+        return True
+    except ValueError:
+        return False
+
 start = time.time()
 argv_length = len(sys.argv)
 if argv_length == 1:
     predictData()
-elif argv_length == 2 and sys.argv[1] == '--improve':
-    improveModel(8000)
+elif argv_length == 3 and sys.argv[1] == '-i' and checkStringToInt(sys.argv[2], allowNegative=False):
+    improveModel(int(sys.argv[2]))
+elif argv_length == 2 and sys.argv[1] == '-i':
+    improveModel(200)
 else:
-    print("usage: python main.py [|--improve]")
+    print("usage: python main.py [|-i] [|{1,2...n}]")
 print('\nTiempo de ejecución: {:.2f} seg'.format(time.time() - start))
