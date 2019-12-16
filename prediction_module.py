@@ -8,6 +8,7 @@ from sklearn.preprocessing import label_binarize
 from joblib import dump, load
 import matplotlib.pyplot as plt
 import json
+import warnings
 import numpy as np
 
 class Predictor:
@@ -46,6 +47,7 @@ class Predictor:
     def generateNewModel(self) -> 'Predictor':
         self.prepareEvalDicts(self)
         self.f1_avg = float(0)
+        # print('{}\n\n{}\n\n{}\n\n{}\n\n{}\n\n{}'.format(self.precision, self.recall, self.f1_score, self.micro_avg, self.macro_avg, self.f1_avg), end='\n\n\n')
         self.classifier = self.trainModel(self)
         self.f_new = self.compareModels(self)
         if(self.f_new):
@@ -87,9 +89,9 @@ class Predictor:
             self.micro_avg[i] = {'precision': float(0), 'recall': float(0), 'f1-score': float(0)}
             self.macro_avg[i] = {'precision': float(0), 'recall': float(0), 'f1-score': float(0)}
             for j in range(self.n_labels):
-                self.precision[i] = {j: float(0)}
-                self.recall[i] = {j: float(0)}
-                self.f1_score[i] = {j: float(0)}
+                self.precision[i][j] = float(0)
+                self.recall[i][j] = float(0)
+                self.f1_score[i][j] = float(0)
 
 
     # Carga un modelo predictivo o lo crea en caso de no existir
@@ -138,10 +140,17 @@ class Predictor:
     def evaluateModel(self, att, target):
         X_train, X_test, y_train, y_test = self.getDataSplit(self, att.tolist(), target.tolist())
         for i in range(self.k_fold):
-            y_score = self.clf_algorithm.fit(X_train[i], y_train[i]).predict_proba(X_test[i])
-            _y_score = self.getBinaryPredictions(self, y_score)
-            # print(X_test[i], '\n\n', y_test[i], '\n\n', y_score, end='\n\n\n')
-            reports = classification_report(y_test[i], _y_score, target_names=self.labels, output_dict=True, zero_division=1)
+            # Se repite iteración donde clasificador no etiqueta alguna clase en ningún dato del split de prueba
+            with warnings.catch_warnings():
+                warnings.filterwarnings('error')
+                try:
+                    y_score = self.clf_algorithm.fit(X_train[i], y_train[i]).predict_proba(X_test[i])
+                    _y_score = self.getBinaryPredictions(self, y_score)
+                    # print(X_test[i], '\n\n', y_test[i], '\n\n', y_score, end='\n\n\n')
+                    reports = classification_report(y_test[i], _y_score, target_names=self.labels, output_dict=True)
+                except Warning:
+                    i -= 1
+                    continue
             '''
             # Imprime por pantalla el contenido del reporte de clasificación
             for item in reports.items():
