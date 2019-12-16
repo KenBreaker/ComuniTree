@@ -20,7 +20,7 @@ def improveModel(test_amount):
     improv_avg = float((f1_avg - old_f1_avg)*100)
     print("Finalizada generación de nuevos modelos ({}/{})\nF(1)-Score máximo: {:.4f} ({:.2f}%)\nF(1)-Score promedio: {:.4f} ({:.2f}%)".format(
         test_amount, test_amount, f1_highest, improv_highest, f1_avg, improv_avg))
-    print ('Nuevo modelo guardado') if f1_highest > old_f1_avg else print('No se ha guardado un nuevo modelo.')
+    print('Nuevo modelo guardado') if f1_highest > old_f1_avg else print('No se ha guardado un nuevo modelo.')
 
 
 # Estima el tiempo de ejecución para la generación de nuevos modelos
@@ -61,6 +61,7 @@ def checkStringToInt(valueToCheck, allowNegative=True):
         return True
     except ValueError:
         return False
+
 
 start = time.time()
 argv_length = len(sys.argv)

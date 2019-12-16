@@ -1,31 +1,39 @@
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import precision_recall_fscore_support
+# from sklearn.neighbors import KNeighborsClassifier
+from sklearn.multiclass import OneVsRestClassifier
+from sklearn.metrics import auc, roc_curve, classification_report
 from sklearn.model_selection import KFold
-from sklearn import tree
+from sklearn.preprocessing import label_binarize
+# from sklearn import tree
 from joblib import dump, load
+import matplotlib.pyplot as plt
 import json
 import numpy as np
 
 class Predictor:
     # Clasificador y datos
-    # clf_algorithm = tree.DecisionTreeClassifier(criterion="gini")                # Algoritmo Decision Tree para la clasificación
-    clf_algorithm = RandomForestClassifier(n_estimators=5, criterion="entropy")     # Algoritmo RFG para la clasificación
+    # clf_algorithm = tree.DecisionTreeClassifier(criterion="gini")                   # Algoritmo Decision Tree para la clasificación
     # clf_algorithm = KNeighborsClassifier(n_neighbors=5, algorithm='auto', p=1)      # Algoritmo kNN para la clasificación
-    labels = ['0','1','2']                                                          # Nombre y cantidad de las etiquetas/clases/target
+    clf_algorithm = RandomForestClassifier(n_estimators=5, criterion="entropy")     # Algoritmo RFG para la clasificación
+    clf_algorithm = OneVsRestClassifier(clf_algorithm)                              # Transforma el clasificador a una versión One vs Rest para multiclase
+    labels = ['0','1','2']                                                          # Nombre de las etiquetas/clases/target
+    n_labels = len(labels)                                                          # Cantidad de etiquetas/clases/target
     
     # Flags
     f_new = False                                                                   # Bandera para saber si el modelo generado es nuevo o no
 
     # Variable y resultados de métricas de evaluación de rendimiento
     k_fold = 10                                                                     # Cantidad de splits que se harán para k-fold Cross Validation
-    precision = []                                                                  # Precision de cada clase (0,1,2) y promedio de todas
-    recall = []                                                                     # Recall de cada clase (0,1,2) y promedio de todas
-    f1_score = []                                                                   # F(1)-Score de cada clase (0,1,2) y promedio de todas
+    precision = dict()                                                              # Precision de cada clase (0,1,2)
+    recall = dict()                                                                 # Recall de cada clase (0,1,2)
+    f1_score = dict()                                                               # F(1)-Score de cada clase (0,1,2)
+    micro_avg = dict()                                                              # Promedio micro de precision, recall y f(1)-score
+    macro_avg = dict()                                                              # Promedio macro de precision, recall y f(1)-score
     f1_avg = float(0)                                                               # F(1)-Score promedio entre todos los splits
 
     # Constructor para predicción
     def __init__(self, data):
+        self.prepareEvalDicts(self)
         self.classifier = self.getPredictiveModel()
         if(self.f_new):
             self.saveModel(self.classifier)
@@ -36,7 +44,7 @@ class Predictor:
     # Constructor para generar nuevo modelo basado en nueva data
     @classmethod
     def generateNewModel(self) -> 'Predictor':
-        self.precision, self.recall, self.f1_score= [], [], []
+        self.prepareEvalDicts(self)
         self.f1_avg = float(0)
         self.classifier = self.trainModel(self)
         self.f_new = self.compareModels(self)
@@ -51,19 +59,37 @@ class Predictor:
         old_f1_avg = float(0)
         try: 
             # Chequea que existan ambos archivos o se guarda el nuevo modelo
-            clf_old = load("output/clf.joblib")
+            load("output/clf.joblib")
             with open("output/clf_performance.csv", "r") as f:
-                line = ""
-                while "Avg" not in line:
-                    line = f.readline()
-                # Si llegó a EOF y no encontró Avg, el archivo performance tiene formato incorrecto.
-                if "Avg" not in line:
-                    print("No se reconoce formato. Se guardará modelo nuevo")
+                f.readline()
+                line = f.readline().replace('\n','').split(';')
+                #print(line[1].replace('.','',1))
+                if line[0] == 'F(1)-Score Micro Average' and line[1].replace('.','',1).isdigit():
+                    old_f1_avg = float(line[1])
                 else:
-                    old_f1_avg = float(line.split(';')[3])
+                    print('Formato incorrecto. Se guardará nuevo modelo')
         except FileNotFoundError:
-            print("Modelo anterior no existe.")
+            print('Error al abrir modelo guardado o su evaluación. Se guardará nuevo modelo')
         return old_f1_avg
+
+ 
+    # Establece keys para los diccionarios de evaluación
+    def prepareEvalDicts(self):
+        self.precision = dict()
+        self.recall = dict()
+        self.f1_score = dict()
+        self.micro_avg = dict()
+        self.macro_avg = dict()
+        for i in range(self.k_fold):
+            self.precision[i] = dict()
+            self.recall[i] = dict()
+            self.f1_score[i] = dict()
+            self.micro_avg[i] = {'precision': float(0), 'recall': float(0), 'f1-score': float(0)}
+            self.macro_avg[i] = {'precision': float(0), 'recall': float(0), 'f1-score': float(0)}
+            for j in range(self.n_labels):
+                self.precision[i] = {j: float(0)}
+                self.recall[i] = {j: float(0)}
+                self.f1_score[i] = {j: float(0)}
 
 
     # Carga un modelo predictivo o lo crea en caso de no existir
@@ -78,14 +104,13 @@ class Predictor:
     
     # Crea un árbol de decisión según el dataset provisto
     def trainModel(self):
-        attributes, target = self.readTrainingData()
+        attributes, target = self.readTrainingData(self)
         self.evaluateModel(self, attributes, target)
         clf = self.clf_algorithm.fit(attributes, target)
         return clf
 
 
-    @staticmethod
-    def readTrainingData():
+    def readTrainingData(self):
         filepath = "input/data.csv"         # Dirección del dataset de entrenamiento
         attributes = []                     # Valor de los atributos en el dataset en cada tupla
         target = []                         # Valor de la clase en cada tupla
@@ -106,73 +131,141 @@ class Predictor:
         except FileNotFoundError:
             print("El archivo " + filepath + " no existe")
             exit(-1)
-        return np.array(attributes), np.array(target)
+        return np.array(attributes), np.array(label_binarize(target, classes=self.labels))
 
 
     # Evalua un clasificador con F(1)-Score y k-fold Cross Validation
     def evaluateModel(self, att, target):
-        rows_train, rows_test, target_train, target_test = [], [], [], []
+        X_train, X_test, y_train, y_test = self.getDataSplit(self, att.tolist(), target.tolist())
+        for i in range(self.k_fold):
+            y_score = self.clf_algorithm.fit(X_train[i], y_train[i]).predict_proba(X_test[i])
+            _y_score = self.getBinaryPredictions(self, y_score)
+            # print(X_test[i], '\n\n', y_test[i], '\n\n', y_score, end='\n\n\n')
+            reports = classification_report(y_test[i], _y_score, target_names=self.labels, output_dict=True, zero_division=1)
+            '''
+            # Imprime por pantalla el contenido del reporte de clasificación
+            for item in reports.items():
+                print(item)
+            print('\n')
+            '''
+            # Almacena los resultados de cada split en diccionarios globales
+            for j in range(self.n_labels):
+                self.precision[i][j] = reports[str(j)]['precision']
+                self.recall[i][j] = reports[str(j)]['recall']
+                self.f1_score[i][j] = reports[str(j)]['f1-score']
+            self.micro_avg[i]['precision'] = reports['micro avg']['precision']
+            self.micro_avg[i]['recall'] = reports['micro avg']['recall']
+            self.micro_avg[i]['f1-score'] = reports['micro avg']['f1-score']
+            self.macro_avg[i]['precision'] = reports['macro avg']['precision']
+            self.macro_avg[i]['recall'] = reports['macro avg']['recall']
+            self.macro_avg[i]['f1-score'] = reports['macro avg']['f1-score']
+        self.f1_avg = self.getDictAverage(self, self.micro_avg, 'f1-score')
+        '''
+        # Imprime por pantalla los valores almacenados en diccionarios globales
+        for i in range(self.k_fold):
+            for j in range(self.n_labels):
+                print('Clase {}: Precision {:.4f}\tRecall {:.4f}\tF(1)-Score {:.4f}'.format(j, self.precision[i][j], self.recall[i][j], self.f1_score[i][j]))
+            print('Micro Avg: Precision {:.4f}\tRecall {:.4f}\tF(1)-Score {:.4f}'.format(self.micro_avg[i]['precision'], self.micro_avg[i]['recall'], self.micro_avg[i]['f1-score']))
+            print('Macro Avg: Precision {:.4f}\tRecall {:.4f}\tF(1)-Score {:.4f}'.format(self.macro_avg[i]['precision'], self.macro_avg[i]['recall'], self.macro_avg[i]['f1-score']), end='\n\n')
+        print('F(1)-Score Micro Avg: {:.4f}'.format(self.f1_avg), end='\n\n')
+        '''
+
+
+    # Crea n splits de datos según el valor de kfold
+    def getDataSplit(self, att, target):
+        X_train, X_test, y_train, y_test  = [], [], [], []
         kf = KFold(n_splits=self.k_fold)
         kf.get_n_splits(att)
         for train_index, test_index in kf.split(att):
+            _X_train, _X_test, _y_train, _y_test  = [], [], [], []
             # print("TRAIN:\n" + str(train_index) + "\nTEST:\n" + str(test_index) + "\n\n")
             # Creación de lista con el split de entrenamiento
             for _train_index in train_index:
-                rows_train.append(att[_train_index])
-                target_train.append(target[_train_index])
+                _X_train.append(att[_train_index])
+                _y_train.append(target[_train_index])
             # Creación de lista con el split de prueba (target para posterior evaluación)
             for _test_index in test_index:
-                rows_test.append(att[_test_index])
-                target_test.append(target[_test_index])
-            clf = self.clf_algorithm.fit(np.array(rows_train), np.array(target_train))
-            # Valores de las métricas en array multidimensional. Necesario ordenar con función listPredictResults
-            self.listPredictionResults(self, precision_recall_fscore_support(target_test, clf.predict(rows_test), average=None, labels=self.labels), len(self.labels))
-            self.f1_avg = self.getScoreAvg(self)
+                _X_test.append(att[_test_index])
+                _y_test.append(target[_test_index])
+            X_train.append(_X_train)
+            X_test.append(_X_test)
+            y_train.append(_y_train)
+            y_test.append(_y_test)
+        return np.array(X_train), np.array(X_test), np.array(y_train), np.array(y_test)
 
 
-    # Ordena resultados de métricas de evaluación para mejor comprensión
-    def listPredictionResults(self, results, n_label):
-        p, p_avg = [], float(0)             # Lista auxiliar para precision de cada clase y su promedio
-        r, r_avg = [], float(0)             # Lista auxiliar para recall de cada clase y su promedio
-        f, f_avg = [], float(0)             # Lista auxiliar para f(1)-score de cada clase y su promedio
-        for _p in results[0]:
-            value = float(_p)
-            p.append(value)
-            p_avg += value
-        p.append(float(p_avg/n_label))
-        self.precision.append(p)
-        for _r in results[1]:
-            value = float(_r)
-            r.append(value)
-            r_avg += value
-        r.append(float(r_avg/n_label))
-        self.recall.append(r)
-        for _f in results[2]:
-            value = float(_f)
-            f.append(value)
-            f_avg += value
-        f.append(float(f_avg/n_label))
-        self.f1_score.append(f)
+    # Determina la clase de la predicción de acuerdo a la clase con la mayor probabilidad
+    def getBinaryPredictions(self, y_score):
+        y_score = y_score.tolist()
+        for i in range(len(y_score)):
+            target_value = y_score[i].index(max(y_score[i]))
+            for j in range(self.n_labels):
+                if target_value == j:
+                    y_score[i][j] = int(1)
+                else:
+                    y_score[i][j] = int(0)
+        return np.array(y_score)
 
 
     # Guarda el modelo predictivo y su desempeño
     def saveModel(self, clf):
         try:
             dump(clf, 'output/clf.joblib')
-            file = open("output/clf_performance.csv", "w", encoding='utf-8')
-            file.write("sep=;\nSplit;Precision;Recall;F(1)-Score\n")
-            p_avg, r_avg, f_avg = float(0), float(0), float(0)
-            n_label = len(self.labels)                              # Posición del promedio por split
-            for i in range(self.k_fold):
-                file.write(str(i+1) + ";" + str(self.precision[i]) + ";" + str(self.recall[i]) + ";" + str(self.f1_score[i]) + "\n")
-                p_avg += self.precision[i][n_label]
-                r_avg += self.recall[i][n_label]
-                f_avg += self.f1_score[i][n_label]
-            file.write('Avg;' + str(float(p_avg/self.k_fold)) + ';' + str(float(r_avg/self.k_fold)) + ';' + str(float(f_avg/self.k_fold)))
-            file.close()
+            with open('output/clf_performance.csv', 'w', encoding='utf-8') as out:
+                out.write('sep=;\nF(1)-Score Micro Average;{}'.format(self.f1_avg))
+                self.averageAllDicts(self)
+                for i in range(self.k_fold + 1):
+                    out.write('\n\n===============================================================================================\n\n')
+                    if i < self.k_fold:
+                        out.write('Split {};Precision;Recall;F(1)-Score\n'.format(i+1))
+                    else:
+                        out.write('All Splits;Precision;Recall;F(1)-Score\n')
+                    for j in range(self.n_labels):
+                        # print('Split {} - Clase {}:\nPrecision:{}\nRecall:{}\nF(1)-Score:{}'.format(i+1, j, self.precision[i][j], self.recall[i][j], self.f1_score[i][j]), end='\n\n')
+                        out.write('{};{};{};{}\n'.format(self.labels[j], self.precision[i][j], self.recall[i][j], self.f1_score[i][j]))
+                    out.write('Micro Avg;{};{};{}\nMacro Avg;{};{};{}'.format(self.micro_avg[i]['precision'], self.micro_avg[i]['recall'], 
+                        self.micro_avg[i]['f1-score'], self.macro_avg[i]['precision'], self.macro_avg[i]['recall'], self.macro_avg[i]['f1-score']))
         except FileNotFoundError:
-            print("No se ha podido escribir a la ruta output/. El modelo no será guardado")
-        
+            print('No se ha podido escribir a la ruta output/. El modelo no será guardado')
+
+
+    # Promedia el valor de todos los diccionarios de evaluación y los almacena en la key [self.k_fold+1]
+    def averageAllDicts(self):
+        _precision, _recall, _f1_score = [], [], []
+        for i in range(self.n_labels):
+            _precision.append(self.getDictAverage(self, self.precision, i))
+            _recall.append(self.getDictAverage(self, self.recall, i))
+            _f1_score.append(self.getDictAverage(self, self.f1_score, i))
+        _micro_avg_p = self.getDictAverage(self, self.micro_avg, 'precision')
+        _micro_avg_r = self.getDictAverage(self, self.micro_avg, 'recall')
+        _macro_avg_p = self.getDictAverage(self, self.macro_avg, 'precision')
+        _macro_avg_r = self.getDictAverage(self, self.macro_avg, 'recall')
+        _macro_avg_f1 = self.getDictAverage(self, self.macro_avg, 'f1-score')
+        self.precision[self.k_fold] = dict()
+        self.recall[self.k_fold] = dict()
+        self.f1_score[self.k_fold] = dict()
+        self.micro_avg[self.k_fold] = dict()
+        self.macro_avg[self.k_fold] = dict()
+        for i in range(self.n_labels):
+            self.precision[self.k_fold][i] = _precision[i]
+            self.recall[self.k_fold][i] = _recall[i]
+            self.f1_score[self.k_fold][i] = _f1_score[i]
+        self.micro_avg[self.k_fold]['precision'] = _micro_avg_p
+        self.micro_avg[self.k_fold]['recall'] = _micro_avg_r
+        self.micro_avg[self.k_fold]['f1-score'] = self.f1_avg
+        self.macro_avg[self.k_fold]['precision'] = _macro_avg_p
+        self.macro_avg[self.k_fold]['recall'] = _macro_avg_r
+        self.macro_avg[self.k_fold]['f1-score'] = _macro_avg_f1
+
+
+    # Promedia el valor del diccionario de entrada según el valor de k_fold
+    def getDictAverage(self, dictEval, itemToAvg):
+        avg = float(0)
+        for _ , value in dictEval.items():
+            # print(_, '|', value, end='\n\n')
+            avg += value[itemToAvg]
+        return float(avg/self.k_fold)
+
 
     # Predice riesgos en Alto(0), Medio(1), Bajo(2)
     def predictRisk(self, data):
@@ -212,12 +305,3 @@ class Predictor:
         if float(self.f1_avg - self.getSavedModelPerformance()) > 0:
             return True
         return False
-
-
-    # Calcula y guarda el F(1)-Score promedio del nuevo modelo
-    def getScoreAvg(self):
-        f1_avg = float(0)
-        n_labels = len(self.labels)
-        for f in self.f1_score:
-            f1_avg += f[n_labels]
-        return float(f1_avg/self.k_fold)
