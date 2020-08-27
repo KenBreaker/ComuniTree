@@ -2,23 +2,25 @@ from sklearn.ensemble import RandomForestClassifier
 # from sklearn.neighbors import KNeighborsClassifier
 from sklearn.multiclass import OneVsRestClassifier
 from sklearn.metrics import auc, roc_curve, classification_report
+from sklearn.model_selection import train_test_split
 from sklearn.model_selection import KFold
 from sklearn.preprocessing import label_binarize
 # from sklearn import tree
 from joblib import dump, load
+from scipy import interp
+from itertools import cycle
 import matplotlib.pyplot as plt
 import json
-import warnings
 import numpy as np
 
 class Predictor:
     # Clasificador y datos
-    # clf_algorithm = tree.DecisionTreeClassifier(criterion="gini")                   # Algoritmo Decision Tree para la clasificación
-    # clf_algorithm = KNeighborsClassifier(n_neighbors=5, algorithm='auto', p=1)      # Algoritmo kNN para la clasificación
-    clf_algorithm = RandomForestClassifier(n_estimators=5, criterion="entropy")     # Algoritmo RFG para la clasificación
-    clf_algorithm = OneVsRestClassifier(clf_algorithm)                              # Transforma el clasificador a una versión One vs Rest para multiclase
-    labels = ['0','1','2']                                                          # Nombre de las etiquetas/clases/target
-    n_labels = len(labels)                                                          # Cantidad de etiquetas/clases/target
+    # clf_algorithm = tree.DecisionTreeClassifier(criterion="entropy")                            # Algoritmo Decision Tree para la clasificación
+    # clf_algorithm = KNeighborsClassifier(n_neighbors=5, algorithm='auto', metric='manhattan')   # Algoritmo kNN para la clasificación
+    clf_algorithm = RandomForestClassifier(n_estimators=67, criterion="entropy")                # Algoritmo RFG para la clasificación
+    clf_algorithm = OneVsRestClassifier(clf_algorithm)                                          # Transforma el clasificador a una versión One vs Rest para multiclase
+    labels = ['0','1','2']                                                                      # Nombre de las etiquetas/clases/target
+    n_labels = len(labels)                                                                      # Cantidad de etiquetas/clases/target
     
     # Flags
     f_new = False                                                                   # Bandera para saber si el modelo generado es nuevo o no
@@ -74,6 +76,45 @@ class Predictor:
             print('Error al abrir modelo guardado o su evaluación. Se guardará nuevo modelo')
         return old_f1_avg
 
+    # Genera la curva ROC y su área para cada clase (De https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html)
+    @classmethod
+    def getROCCurve(self) -> 'Predictor':
+        fpr, tpr, roc_auc = dict(), dict(), dict()
+        clf = load('output/clf.joblib')
+        X, y = self.readTrainingData(self)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.3, random_state=0)
+        y_score = clf.fit(X_train, y_train).predict_proba(X_test)
+        # Computa la curva ROC y su área para cada clase
+        for i in range(self.n_labels):
+            fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+            roc_auc[i] = auc(fpr[i], tpr[i])
+        # Computa la curva ROC de los micro y macro promedios y sus áreas
+        fpr['micro'], tpr['micro'], _ = roc_curve(y_test.ravel(), y_score.ravel())
+        roc_auc['micro'] = auc(fpr['micro'], tpr['micro'])
+        all_fpr = np.unique(np.concatenate([fpr[i] for i in range(self.n_labels)]))
+        mean_tpr = np.zeros_like(all_fpr)
+        for i in range(self.n_labels):
+            mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+        mean_tpr /= self.n_labels
+        fpr['macro'] = all_fpr
+        tpr['macro'] = mean_tpr
+        roc_auc['macro'] = auc(fpr['macro'], tpr['macro'])
+        # Genera el gráfico de la curva ROC
+        plt.figure()
+        lw = 2
+        plt.plot(fpr['micro'], tpr['micro'], label='Micro-Average ROC Curve (area = {:.2f})'.format(roc_auc['micro']), color='deeppink', linestyle=':', linewidth=4)
+        plt.plot(fpr['macro'], tpr['macro'], label='Macro-Average ROC Curve (area = {:.2f})'.format(roc_auc['macro']), color='navy', linestyle=':', linewidth=4)
+        colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+        for i, color in zip(range(self.n_labels), colors):
+            plt.plot(fpr[i], tpr[i], color=color, lw=lw, label='Label {} ROC Curve (area = {:.2f})'.format(i, roc_auc[i]))
+        plt.plot([0,1], [0,1], 'k--', lw=lw)    # Baseline
+        plt.xlim([0.0, 1.0])
+        plt.ylim([0.0, 1.05])
+        plt.xlabel('False Positive Rate')
+        plt.ylabel('True Positive Rate')
+        plt.title('Multi-Class Receiver Operating Characterstic Curve')
+        plt.legend(loc='lower right')
+        plt.show()
  
     # Establece keys para los diccionarios de evaluación
     def prepareEvalDicts(self):
@@ -140,17 +181,10 @@ class Predictor:
     def evaluateModel(self, att, target):
         X_train, X_test, y_train, y_test = self.getDataSplit(self, att.tolist(), target.tolist())
         for i in range(self.k_fold):
-            # Se repite iteración donde clasificador no etiqueta alguna clase en ningún dato del split de prueba
-            with warnings.catch_warnings():
-                warnings.filterwarnings('error')
-                try:
-                    y_score = self.clf_algorithm.fit(X_train[i], y_train[i]).predict_proba(X_test[i])
-                    _y_score = self.getBinaryPredictions(self, y_score)
-                    # print(X_test[i], '\n\n', y_test[i], '\n\n', y_score, end='\n\n\n')
-                    reports = classification_report(y_test[i], _y_score, target_names=self.labels, output_dict=True)
-                except Warning:
-                    i -= 1
-                    continue
+            y_score = self.clf_algorithm.fit(X_train[i], y_train[i]).predict_proba(X_test[i])
+            _y_score = self.getBinaryPredictions(self, y_score)
+            # print(X_test[i], '\n\n', y_test[i], '\n\n', y_score, end='\n\n\n')
+            reports = classification_report(y_test[i], _y_score, target_names=self.labels, output_dict=True, zero_division=1)
             '''
             # Imprime por pantalla el contenido del reporte de clasificación
             for item in reports.items():

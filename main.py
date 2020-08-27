@@ -20,7 +20,11 @@ def improveModel(test_amount):
     improv_avg = float((f1_avg - old_f1_avg)*100)
     print("Finalizada generación de nuevos modelos ({}/{})\nF(1)-Score máximo: {:.4f} ({:.2f}%)\nF(1)-Score promedio: {:.4f} ({:.2f}%)".format(
         test_amount, test_amount, f1_highest, improv_highest, f1_avg, improv_avg))
-    print('Nuevo modelo guardado') if f1_highest > old_f1_avg else print('No se ha guardado un nuevo modelo.')
+    if f1_highest > old_f1_avg:
+        print('Nuevo modelo guardado')
+        Predictor.getROCCurve()
+    else:
+        print("No se ha guardado un nuevo modelo")
 
 
 # Estima el tiempo de ejecución para la generación de nuevos modelos
@@ -68,9 +72,13 @@ argv_length = len(sys.argv)
 if argv_length == 1:
     predictData()
 elif argv_length == 3 and sys.argv[1] == '-i' and checkStringToInt(sys.argv[2], allowNegative=False):
-    improveModel(int(sys.argv[2]))
+    test_amount = int(sys.argv[2])
+    if test_amount > 0:
+        improveModel(test_amount)
 elif argv_length == 2 and sys.argv[1] == '-i':
     improveModel(200)
+elif argv_length == 2 and sys.argv[1] == '-g':
+    Predictor.getROCCurve()
 else:
     print("usage: python main.py [|-i] [|{1,2...n}]")
 print('\nTiempo de ejecución: {:.2f} seg'.format(time.time() - start))
